@@ -1,0 +1,365 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Edit Profile
+{% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/accounts/profile.css' %}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="profile-page">
+
+    <div class="profile-container">
+
+
+        <!-- =====================================
+             PROFILE EDIT HEADER
+        ====================================== -->
+
+        <section class="profile-header-card">
+
+            <div class="profile-main">
+
+                <div class="profile-avatar">
+
+                    {% if user.profile_picture %}
+
+                        <img
+                            src="{{ user.profile_picture.url }}"
+                            alt="{{ user.full_name }}"
+                        >
+
+                    {% else %}
+
+                        {{ initials }}
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="profile-identity">
+
+                    <h1>
+                        {{ user.full_name }}
+                    </h1>
+
+                    <p class="profile-email">
+                        {{ user.email }}
+                    </p>
+
+                    <div class="profile-meta">
+
+                        <span class="blood-badge">
+                            {{ user.blood_group }}
+                        </span>
+
+                        <span>
+                            {{ user.location }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-actions">
+
+                <a
+                    href="{% url 'accounts:profile' %}"
+                    class="profile-btn profile-btn-light"
+                >
+                    Cancel
+                </a>
+
+                <a
+                    href="{% url 'accounts:logout' %}"
+                    class="profile-btn profile-btn-light"
+                >
+                    Logout
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             EDIT FORM
+        ====================================== -->
+
+        <section class="profile-edit-card">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                {% if form.non_field_errors %}
+
+                    <div class="form-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+
+                {% endif %}
+
+
+                <div class="edit-grid">
+
+
+                    <!-- Full Name -->
+
+                    <div class="profile-form-group">
+
+                        <label for="{{ form.full_name.id_for_label }}">
+                            FULL NAME
+                        </label>
+
+                        {{ form.full_name }}
+
+                        {% if form.full_name.errors %}
+                            <div class="field-error">
+                                {{ form.full_name.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Phone -->
+
+                    <div class="profile-form-group">
+
+                        <label for="{{ form.phone.id_for_label }}">
+                            PHONE
+                        </label>
+
+                        {{ form.phone }}
+
+                        {% if form.phone.errors %}
+                            <div class="field-error">
+                                {{ form.phone.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Location -->
+
+                    <div class="profile-form-group">
+
+                        <label for="{{ form.location.id_for_label }}">
+                            LOCATION
+                        </label>
+
+                        {{ form.location }}
+
+                        {% if form.location.errors %}
+                            <div class="field-error">
+                                {{ form.location.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Date of Birth -->
+
+                    <div class="profile-form-group">
+
+                        <label for="{{ form.date_of_birth.id_for_label }}">
+                            DATE OF BIRTH
+                        </label>
+
+                        {{ form.date_of_birth }}
+
+                        {% if form.date_of_birth.errors %}
+                            <div class="field-error">
+                                {{ form.date_of_birth.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Blood Group -->
+
+                    <div class="profile-form-group blood-group-field">
+
+                        <label for="{{ form.blood_group.id_for_label }}">
+                            BLOOD GROUP
+                        </label>
+
+                        {{ form.blood_group }}
+
+                        {% if form.blood_group.errors %}
+                            <div class="field-error">
+                                {{ form.blood_group.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- Buttons -->
+
+                <div class="edit-form-actions">
+
+                    <button
+                        type="submit"
+                        class="profile-btn profile-btn-red"
+                    >
+                        Save Changes
+                    </button>
+
+                    <a
+                        href="{% url 'accounts:profile' %}"
+                        class="profile-btn profile-btn-outline"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- =====================================
+             STAT CARDS
+        ====================================== -->
+
+        <section class="profile-stats">
+
+            <div class="stat-card">
+
+                <strong>
+                    {{ request_count }}
+                </strong>
+
+                <span>
+                    My Requests
+                </span>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <strong>
+
+                    {% if donor_profile.availability == "available" %}
+                        ✓ Active
+                    {% else %}
+                        Not Active
+                    {% endif %}
+
+                </strong>
+
+                <span>
+                    Donor Profile
+                </span>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <strong>
+                    {{ user.blood_group }}
+                </strong>
+
+                <span>
+                    Blood Group
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             DONOR PROFILE
+        ====================================== -->
+
+        <section class="donor-profile-card">
+
+            <div class="donor-profile-header">
+
+                <h2>
+                    Donor Profile
+                </h2>
+
+                <div class="donor-actions">
+
+                    <button
+                        type="button"
+                        class="profile-btn profile-btn-outline"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        type="button"
+                        class="profile-btn profile-btn-red"
+                    >
+                        View
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="donor-profile-info">
+
+                <strong>
+                    {{ user.full_name }}
+                </strong>
+
+                <span>
+                    {{ user.blood_group }} · {{ user.location }}
+                </span>
+
+                {% if donor_profile.availability == "available" %}
+
+                    <span class="availability available">
+                        Available
+                    </span>
+
+                {% else %}
+
+                    <span class="availability unavailable">
+                        Not Available
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+</div>
+
+{% endblock %}

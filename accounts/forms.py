@@ -56,3 +56,25 @@ class LoginForm(AuthenticationForm):
     username = forms.EmailField(
         label="Email Address"
     )
+
+
+class ProfileUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = CustomUser
+
+        fields = [
+            "full_name",
+            "phone",
+            "location",
+            "date_of_birth",
+            "blood_group",
+        ]
+
+        widgets = {
+            "date_of_birth": forms.DateInput(
+                attrs={
+                    "type": "date"
+                }
+            ),
+        }

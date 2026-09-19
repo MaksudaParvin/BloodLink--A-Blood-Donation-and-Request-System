@@ -3,7 +3,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
-from .forms import RegistrationForm, LoginForm
+from .forms import RegistrationForm, LoginForm, ProfileUpdateForm
 from donors.models import DonorProfile
 
 
@@ -83,3 +83,86 @@ def logout_view(request):
     )
 
     return redirect("core:home")
+
+
+@login_required
+def profile_view(request):
+
+    donor_profile, created = DonorProfile.objects.get_or_create(
+        user=request.user
+    )
+
+    request_count = request.user.blood_requests.count()
+
+    initials = "".join(
+        [
+            name[0].upper()
+            for name in request.user.full_name.split()
+            if name
+        ]
+    )[:2]
+
+    return render(
+        request,
+        "accounts/profile.html",
+        {
+            "donor_profile": donor_profile,
+            "request_count": request_count,
+            "initials": initials,
+        }
+    )
+
+
+@login_required
+def profile_edit_view(request):
+
+    donor_profile, created = DonorProfile.objects.get_or_create(
+        user=request.user
+    )
+
+    if request.method == "POST":
+
+        form = ProfileUpdateForm(
+            request.POST,
+            instance=request.user
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(
+                request,
+                "Your profile has been updated successfully."
+            )
+
+            return redirect(
+                "accounts:profile"
+            )
+
+    else:
+
+        form = ProfileUpdateForm(
+            instance=request.user
+        )
+
+    request_count = request.user.blood_requests.count()
+
+    initials = "".join(
+        [
+            name[0].upper()
+            for name in request.user.full_name.split()
+            if name
+        ]
+    )[:2]
+
+    return render(
+        request,
+        "accounts/profile_edit.html",
+        {
+            "form": form,
+            "donor_profile": donor_profile,
+            "request_count": request_count,
+            "initials": initials,
+        }
+    )
