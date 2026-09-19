@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
 from .forms import RegistrationForm, LoginForm
+from donors.models import DonorProfile
 
 
 def register_view(request):
@@ -17,14 +18,16 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
 
-            login(request, user)
+            DonorProfile.objects.create(
+                user=user
+            )
 
             messages.success(
                 request,
                 "Your account has been created successfully."
             )
 
-            return redirect("core:home")
+            return redirect("accounts:login")
 
     else:
         form = RegistrationForm()
@@ -79,4 +82,4 @@ def logout_view(request):
         "You have been logged out successfully."
     )
 
-    return redirect("accounts:login")
+    return redirect("core:home")

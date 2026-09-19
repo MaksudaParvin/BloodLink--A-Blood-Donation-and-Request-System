@@ -1,0 +1,350 @@
+{% extends "base.html" %}
+
+{% block title %}
+BloodLink - Find a Donor. Save a Life.
+{% endblock %}
+
+
+{% block content %}
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="container hero-content">
+
+        <p class="eyebrow">
+            BLOOD DONATE & REQUEST SYSTEM
+        </p>
+
+        <h1>
+            Find a donor.<br>
+            <em>Save a life.</em>
+        </h1>
+
+        <p class="hero-description">
+            A community platform connecting blood donors with patients in
+            need. Register, search, and respond — every second counts.
+        </p>
+
+        <div class="hero-actions">
+
+            <a href="#" class="btn btn-light">
+                Find Blood Donor
+            </a>
+
+            <a href="#" class="btn btn-transparent">
+                Request Blood
+            </a>
+
+            {% if not user.is_authenticated %}
+
+                <a href="{% url 'accounts:register' %}"
+                   class="btn btn-transparent">
+                    Become a Donor
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- STATISTICS -->
+
+<section class="statistics">
+
+    <div class="container stats-grid">
+
+        <div class="stat-item">
+            <strong>{{ registered_donors }}</strong>
+            <span>Registered Donors</span>
+        </div>
+
+        <div class="stat-item">
+            <strong>{{ available_donors }}</strong>
+            <span>Available Now</span>
+        </div>
+
+        <div class="stat-item">
+            <strong>{{ total_requests }}</strong>
+            <span>Total Requests</span>
+        </div>
+
+        <div class="stat-item">
+            <strong>{{ pending_requests }}</strong>
+            <span>Pending Requests</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- QUICK ACTIONS -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <p class="eyebrow dark">
+                QUICK ACTIONS
+            </p>
+
+            <h2>
+                What do you need?
+            </h2>
+
+        </div>
+
+
+        <div class="action-grid">
+
+            <a href="#" class="action-card action-blue">
+
+                <div class="action-icon">
+                    🔍
+                </div>
+
+                <h3>
+                    Find Blood Donor
+                </h3>
+
+                <p>
+                    Search available donors by blood group and location.
+                </p>
+
+            </a>
+
+
+            <a href="#" class="action-card action-red">
+
+                <div class="action-icon">
+                    🩸
+                </div>
+
+                <h3>
+                    Request Blood
+                </h3>
+
+                <p>
+                    Post an urgent blood request for a patient.
+                </p>
+
+            </a>
+
+
+            <a href="#" class="action-card action-pink">
+
+                <div class="action-icon">
+                    💗
+                </div>
+
+                <h3>
+                    Become a Donor
+                </h3>
+
+                <p>
+                    Register your blood group and availability.
+                </p>
+
+            </a>
+
+
+            <a href="#" class="action-card action-green">
+
+                <div class="action-icon">
+                    📋
+                </div>
+
+                <h3>
+                    View Requests
+                </h3>
+
+                <p>
+                    Browse all active blood requests near you.
+                </p>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- BLOOD GROUP REFERENCE -->
+
+<section class="section section-border">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <p class="eyebrow dark">
+                COMPATIBILITY
+            </p>
+
+            <h2>
+                Blood Group Reference
+            </h2>
+
+        </div>
+
+
+        <div class="blood-group-grid">
+
+            {% for blood_group in blood_group_data %}
+
+                <div class="blood-group-card">
+
+                    <strong>
+                        {{ blood_group.name }}
+                    </strong>
+
+                    <span>
+                        {{ blood_group.count }} avail.
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- LATEST REQUESTS -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <div>
+
+                <p class="eyebrow dark">
+                    LATEST
+                </p>
+
+                <h2>
+                    Active Blood Requests
+                </h2>
+
+            </div>
+
+            <a href="#" class="view-all">
+                View all →
+            </a>
+
+        </div>
+
+
+        <div class="request-grid">
+
+            {% for blood_request in latest_requests %}
+
+                <article class="request-card">
+
+                    <div class="request-top">
+
+                        <span class="blood-badge">
+                            {{ blood_request.blood_group }}
+                        </span>
+
+                        <span class="status-badge">
+                            {{ blood_request.get_status_display }}
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        {{ blood_request.patient_name }}
+                    </h3>
+
+
+                    <p class="hospital">
+                        {{ blood_request.hospital_name }}
+                    </p>
+
+
+                    <p class="request-meta">
+                        {{ blood_request.hospital_location }}
+                        ·
+                        {{ blood_request.bags_required }} bags
+                    </p>
+
+
+                    <p class="request-date">
+                        Due {{ blood_request.required_date|date:"Y-m-d" }}
+                    </p>
+
+                </article>
+
+            {% empty %}
+
+                <div class="empty-state">
+                    <p>
+                        No active blood requests at the moment.
+                    </p>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CTA -->
+
+<section class="section cta-section">
+
+    <div class="container">
+
+        <div class="cta">
+
+            <h2>
+                Every drop matters.
+            </h2>
+
+            <p>
+                Join our community of donors and make a difference in
+                someone's life today.
+            </p>
+
+            {% if user.is_authenticated %}
+
+                <a href="#" class="btn btn-light">
+                    Update My Profile
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'accounts:register' %}"
+                   class="btn btn-light">
+                    Register as a Donor
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

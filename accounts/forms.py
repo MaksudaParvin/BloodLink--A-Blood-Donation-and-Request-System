@@ -25,6 +25,14 @@ class RegistrationForm(forms.ModelForm):
             "profile_picture",
         ]
 
+    date_of_birth = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                "type": "date"
+            }
+        )
+    )
+
     def clean(self):
         cleaned_data = super().clean()
 
