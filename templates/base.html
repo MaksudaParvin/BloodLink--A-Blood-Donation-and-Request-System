@@ -2,24 +2,72 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{% block title %}BloodLink{% endblock %}</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>
+        {% block title %}
+            BloodLink
+        {% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- Global CSS -->
+    <link
+        rel="stylesheet"
+        href="{% static 'css/base.css' %}"
+    >
+
+
+    <!-- Page Specific CSS -->
+    {% block extra_css %}
+    {% endblock %}
+
 </head>
+
 
 <body>
 
+
+    <!-- =====================================
+         NAVBAR
+    ====================================== -->
+
     <header class="site-header">
+
         <div class="container navbar">
 
-            <a href="{% url 'core:home' %}" class="brand">
-                <span class="brand-icon">♦</span>
-                <span>BloodLink</span>
+
+            <!-- LEFT : BRAND -->
+
+            <a
+                href="{% url 'core:home' %}"
+                class="brand"
+            >
+
+            <div class="brand-icon">
+                <i class="fa-solid fa-droplet"></i>
+            </div>
+
+                <span>
+                    BloodLink
+                </span>
+
             </a>
+
+
+            <!-- CENTER : NAVIGATION -->
 
             <nav class="nav-links">
 
@@ -34,6 +82,7 @@
                 <a href="#">
                     Blood Requests
                 </a>
+
 
                 {% if user.is_authenticated %}
 
@@ -53,28 +102,39 @@
 
             </nav>
 
+
+            <!-- RIGHT : ACTIONS -->
+
             <div class="nav-actions">
 
                 {% if user.is_authenticated %}
 
                     <span class="user-greeting">
-                        Hi, {{ user.full_name }}
+                            Hi, {{ request.user.full_name }}
                     </span>
 
-                    <a href="{% url 'accounts:logout' %}"
-                       class="btn btn-outline">
+
+                    <a
+                        href="{% url 'accounts:logout' %}"
+                        class="btn btn-outline"
+                    >
                         Logout
                     </a>
 
                 {% else %}
 
-                    <a href="{% url 'accounts:login' %}"
-                       class="btn btn-outline">
+                    <a
+                        href="{% url 'accounts:login' %}"
+                        class="btn btn-outline"
+                    >
                         Login
                     </a>
 
-                    <a href="{% url 'accounts:register' %}"
-                       class="btn btn-primary">
+
+                    <a
+                        href="{% url 'accounts:register' %}"
+                        class="btn btn-primary"
+                    >
                         Register
                     </a>
 
@@ -83,21 +143,40 @@
             </div>
 
         </div>
+
     </header>
 
 
+    <!-- =====================================
+         PAGE CONTENT
+    ====================================== -->
+
     <main>
+
         {% block content %}
         {% endblock %}
+
     </main>
 
 
+    <!-- =====================================
+         FOOTER
+    ====================================== -->
+
     <footer class="site-footer">
+
         <div class="container">
-            <p>© {% now "Y" %} BloodLink. Every drop matters.</p>
+
+            <p>
+                © {% now "Y" %} BloodLink.
+                Every drop matters.
+            </p>
+
         </div>
+
     </footer>
 
 
 </body>
+
 </html>

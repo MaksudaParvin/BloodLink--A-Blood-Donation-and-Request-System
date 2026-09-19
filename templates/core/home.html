@@ -1,13 +1,28 @@
 {% extends "base.html" %}
+{% load static %}
+
 
 {% block title %}
-BloodLink - Find a Donor. Save a Life.
+    BloodLink - Find a Donor. Save a Life.
+{% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/core/home.css' %}"
+>
+
 {% endblock %}
 
 
 {% block content %}
 
-<!-- HERO -->
+
+<!-- =====================================
+     HERO
+====================================== -->
 
 <section class="hero">
 
@@ -17,30 +32,44 @@ BloodLink - Find a Donor. Save a Life.
             BLOOD DONATE & REQUEST SYSTEM
         </p>
 
+
         <h1>
             Find a donor.<br>
             <em>Save a life.</em>
         </h1>
 
+
         <p class="hero-description">
-            A community platform connecting blood donors with patients in
-            need. Register, search, and respond — every second counts.
+            A community platform connecting blood donors with
+            patients in need. Register, search, and respond —
+            every second counts.
         </p>
+
 
         <div class="hero-actions">
 
-            <a href="#" class="btn btn-light">
+            <a
+                href="#"
+                class="btn btn-light"
+            >
                 Find Blood Donor
             </a>
 
-            <a href="#" class="btn btn-transparent">
+
+            <a
+                href="#"
+                class="btn btn-transparent"
+            >
                 Request Blood
             </a>
 
+
             {% if not user.is_authenticated %}
 
-                <a href="{% url 'accounts:register' %}"
-                   class="btn btn-transparent">
+                <a
+                    href="{% url 'accounts:register' %}"
+                    class="btn btn-transparent"
+                >
                     Become a Donor
                 </a>
 
@@ -53,42 +82,80 @@ BloodLink - Find a Donor. Save a Life.
 </section>
 
 
-<!-- STATISTICS -->
+<!-- =====================================
+     STATISTICS
+====================================== -->
 
 <section class="statistics">
 
     <div class="container stats-grid">
 
-        <div class="stat-item">
-            <strong>{{ registered_donors }}</strong>
-            <span>Registered Donors</span>
-        </div>
 
         <div class="stat-item">
-            <strong>{{ available_donors }}</strong>
-            <span>Available Now</span>
+
+            <strong>
+                {{ registered_donors }}
+            </strong>
+
+            <span>
+                Registered Donors
+            </span>
+
         </div>
 
-        <div class="stat-item">
-            <strong>{{ total_requests }}</strong>
-            <span>Total Requests</span>
-        </div>
 
         <div class="stat-item">
-            <strong>{{ pending_requests }}</strong>
-            <span>Pending Requests</span>
+
+            <strong>
+                {{ available_donors }}
+            </strong>
+
+            <span>
+                Available Now
+            </span>
+
         </div>
+
+
+        <div class="stat-item">
+
+            <strong>
+                {{ total_requests }}
+            </strong>
+
+            <span>
+                Total Requests
+            </span>
+
+        </div>
+
+
+        <div class="stat-item">
+
+            <strong>
+                {{ pending_requests }}
+            </strong>
+
+            <span>
+                Pending Requests
+            </span>
+
+        </div>
+
 
     </div>
 
 </section>
 
 
-<!-- QUICK ACTIONS -->
+<!-- =====================================
+     QUICK ACTIONS
+====================================== -->
 
 <section class="section">
 
     <div class="container">
+
 
         <div class="section-heading">
 
@@ -105,7 +172,11 @@ BloodLink - Find a Donor. Save a Life.
 
         <div class="action-grid">
 
-            <a href="#" class="action-card action-blue">
+
+            <a
+                href="#"
+                class="action-card action-blue"
+            >
 
                 <div class="action-icon">
                     🔍
@@ -116,13 +187,17 @@ BloodLink - Find a Donor. Save a Life.
                 </h3>
 
                 <p>
-                    Search available donors by blood group and location.
+                    Search available donors by blood group
+                    and location.
                 </p>
 
             </a>
 
 
-            <a href="#" class="action-card action-red">
+            <a
+                href="#"
+                class="action-card action-red"
+            >
 
                 <div class="action-icon">
                     🩸
@@ -139,7 +214,10 @@ BloodLink - Find a Donor. Save a Life.
             </a>
 
 
-            <a href="#" class="action-card action-pink">
+            <a
+                href="{% url 'accounts:register' %}"
+                class="action-card action-pink"
+            >
 
                 <div class="action-icon">
                     💗
@@ -156,7 +234,10 @@ BloodLink - Find a Donor. Save a Life.
             </a>
 
 
-            <a href="#" class="action-card action-green">
+            <a
+                href="#"
+                class="action-card action-green"
+            >
 
                 <div class="action-icon">
                     📋
@@ -172,6 +253,7 @@ BloodLink - Find a Donor. Save a Life.
 
             </a>
 
+
         </div>
 
     </div>
@@ -179,11 +261,14 @@ BloodLink - Find a Donor. Save a Life.
 </section>
 
 
-<!-- BLOOD GROUP REFERENCE -->
+<!-- =====================================
+     BLOOD GROUP REFERENCE
+====================================== -->
 
 <section class="section section-border">
 
     <div class="container">
+
 
         <div class="section-heading">
 
@@ -223,13 +308,17 @@ BloodLink - Find a Donor. Save a Life.
 </section>
 
 
-<!-- LATEST REQUESTS -->
+<!-- =====================================
+     ACTIVE BLOOD REQUESTS
+====================================== -->
 
 <section class="section">
 
     <div class="container">
 
+
         <div class="section-header">
+
 
             <div>
 
@@ -243,28 +332,39 @@ BloodLink - Find a Donor. Save a Life.
 
             </div>
 
-            <a href="#" class="view-all">
+
+            <a
+                href="#"
+                class="view-all"
+            >
                 View all →
             </a>
+
 
         </div>
 
 
         <div class="request-grid">
 
+
             {% for blood_request in latest_requests %}
+
 
                 <article class="request-card">
 
+
                     <div class="request-top">
+
 
                         <span class="blood-badge">
                             {{ blood_request.blood_group }}
                         </span>
 
+
                         <span class="status-badge">
                             {{ blood_request.get_status_display }}
                         </span>
+
 
                     </div>
 
@@ -282,25 +382,34 @@ BloodLink - Find a Donor. Save a Life.
                     <p class="request-meta">
                         {{ blood_request.hospital_location }}
                         ·
-                        {{ blood_request.bags_required }} bags
+                        {{ blood_request.bags_required }}
+                        bags
                     </p>
 
 
                     <p class="request-date">
-                        Due {{ blood_request.required_date|date:"Y-m-d" }}
+                        Due
+                        {{ blood_request.required_date|date:"Y-m-d" }}
                     </p>
+
 
                 </article>
 
+
             {% empty %}
 
+
                 <div class="empty-state">
+
                     <p>
                         No active blood requests at the moment.
                     </p>
+
                 </div>
 
+
             {% endfor %}
+
 
         </div>
 
@@ -309,42 +418,55 @@ BloodLink - Find a Donor. Save a Life.
 </section>
 
 
-<!-- CTA -->
+<!-- =====================================
+     CTA
+====================================== -->
 
 <section class="section cta-section">
 
     <div class="container">
 
+
         <div class="cta">
+
 
             <h2>
                 Every drop matters.
             </h2>
 
+
             <p>
-                Join our community of donors and make a difference in
-                someone's life today.
+                Join our community of donors and make a
+                difference in someone's life today.
             </p>
+
 
             {% if user.is_authenticated %}
 
-                <a href="#" class="btn btn-light">
+                <a
+                    href="#"
+                    class="btn btn-light"
+                >
                     Update My Profile
                 </a>
 
             {% else %}
 
-                <a href="{% url 'accounts:register' %}"
-                   class="btn btn-light">
+                <a
+                    href="{% url 'accounts:register' %}"
+                    class="btn btn-light"
+                >
                     Register as a Donor
                 </a>
 
             {% endif %}
+
 
         </div>
 
     </div>
 
 </section>
+
 
 {% endblock %}
