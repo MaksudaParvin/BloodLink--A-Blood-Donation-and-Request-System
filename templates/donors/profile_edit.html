@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Update Donor Profile{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/donors/edit_profile.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+<main class="donor-page">
+
+    <div class="donor-page-header">
+
+        <p class="eyebrow">
+            EDIT
+        </p>
+
+        <h1>
+            Update Donor Profile
+        </h1>
+
+    </div>
+
+
+    <section class="donor-form-card">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+
+            <!-- FULL NAME -->
+
+            <div class="form-group">
+
+                <label for="{{ form.full_name.id_for_label }}">
+                    Full Name
+                </label>
+
+                {{ form.full_name }}
+
+                {% if form.full_name.errors %}
+                    <div class="field-error">
+                        {{ form.full_name.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="form-group">
+
+                <label for="{{ form.phone.id_for_label }}">
+                    Phone Number
+                </label>
+
+                {{ form.phone }}
+
+                {% if form.phone.errors %}
+                    <div class="field-error">
+                        {{ form.phone.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- LOCATION -->
+
+            <div class="form-group">
+
+                <label for="{{ form.location.id_for_label }}">
+                    Location / City
+                </label>
+
+                {{ form.location }}
+
+                {% if form.location.errors %}
+                    <div class="field-error">
+                        {{ form.location.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- BLOOD GROUP + AVAILABILITY -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="{{ form.blood_group.id_for_label }}">
+                        Blood Group
+                    </label>
+
+                    {{ form.blood_group }}
+
+                    {% if form.blood_group.errors %}
+                        <div class="field-error">
+                            {{ form.blood_group.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="{{ form.availability.id_for_label }}">
+                        Availability
+                    </label>
+
+                    {{ form.availability }}
+
+                    {% if form.availability.errors %}
+                        <div class="field-error">
+                            {{ form.availability.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- LAST DONATION -->
+
+            <div class="form-group">
+
+                <label for="{{ form.last_donation_date.id_for_label }}">
+                    Last Donation Date
+                </label>
+
+                {{ form.last_donation_date }}
+
+                {% if form.last_donation_date.errors %}
+                    <div class="field-error">
+                        {{ form.last_donation_date.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="{{ form.description.id_for_label }}">
+                    Short Description
+                </label>
+
+                {{ form.description }}
+
+                {% if form.description.errors %}
+                    <div class="field-error">
+                        {{ form.description.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Update Profile
+                </button>
+
+                <a
+                    href="{% url 'accounts:profile' %}"
+                    class="btn btn-outline"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</main>
+
+{% endblock %}

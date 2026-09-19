@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    {{ donor_profile.user.full_name }}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/donors/edit_profile.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+<main class="donor-page">
+
+    <a
+        {% comment %} href="{% url 'donors:list' %}" {% endcomment %}
+        class="back-link"
+    >
+        ← Back to donors
+    </a>
+
+
+    <section class="donor-detail-card">
+
+
+        <!-- HEADER -->
+
+        <div class="donor-detail-header">
+
+            <div class="donor-avatar">
+
+                {{ donor_profile.user.full_name|slice:":1"|upper }}
+
+            </div>
+
+
+            <div class="donor-header-info">
+
+                <h1>
+                    {{ donor_profile.user.full_name }}
+                </h1>
+
+
+                <div class="donor-badges">
+
+                    <span class="blood-badge">
+                        {{ donor_profile.user.blood_group }}
+                    </span>
+
+
+                    <span
+                        class="availability-badge
+                        {% if donor_profile.availability == 'available' %}
+                            available
+                        {% else %}
+                            unavailable
+                        {% endif %}"
+                    >
+                        {{ donor_profile.get_availability_display }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INFORMATION -->
+
+        <div class="donor-information">
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Blood Group
+                </span>
+
+                <strong>
+                    {{ donor_profile.user.blood_group }}
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Location
+                </span>
+
+                <strong>
+                    {{ donor_profile.user.location }}
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Phone
+                </span>
+
+                <strong>
+                    {{ donor_profile.user.phone }}
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Last Donation
+                </span>
+
+                <strong>
+                    {% if donor_profile.last_donation_date %}
+                        {{ donor_profile.last_donation_date|date:"Y-m-d" }}
+                    {% else %}
+                        Not available
+                    {% endif %}
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Availability
+                </span>
+
+                <strong>
+                    {{ donor_profile.get_availability_display }}
+                </strong>
+
+            </div>
+
+
+            <div class="info-item info-about">
+
+                <span class="info-label">
+                    About
+                </span>
+
+                <p>
+                    {% if donor_profile.description %}
+                        {{ donor_profile.description }}
+                    {% else %}
+                        No description provided.
+                    {% endif %}
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="donor-detail-actions">
+
+
+            {% if donor_profile.availability == "available" %}
+
+                <a
+                    href="tel:{{ donor_profile.user.phone }}"
+                    class="btn btn-primary call-btn"
+                >
+                    ☎ Call Donor
+                </a>
+
+            {% endif %}
+
+
+            {% if donor_profile.user == request.user %}
+
+                <a
+                    href="{% url 'donors:edit' %}"
+                    class="btn btn-outline"
+                >
+                    Edit
+                </a>
+
+
+                <form
+                    method="POST"
+                    action="{% url 'donors:delete' donor_profile.pk %}"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-delete"
+                        onclick="return confirm('Are you sure you want to delete your donor profile?');"
+                    >
+                        Delete
+                    </button>
+
+                </form>
+
+            {% endif %}
+
+
+        </div>
+
+    </section>
+
+</main>
+
+{% endblock %}

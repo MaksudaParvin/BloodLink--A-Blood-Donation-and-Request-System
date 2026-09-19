@@ -251,19 +251,19 @@
 
                 <div class="donor-actions">
 
-                    <button
-                        type="button"
-                        class="profile-btn profile-btn-outline"
-                    >
-                        Edit
-                    </button>
+                <a
+                    href="{% url 'donors:edit' %}"
+                    class="profile-btn profile-btn-outline"
+                >
+                    Edit
+                </a>
 
-                    <button
-                        type="button"
-                        class="profile-btn profile-btn-red"
-                    >
-                        View
-                    </button>
+                <a
+                    href="{% url 'donors:detail' donor_profile.pk %}"
+                    class="profile-btn profile-btn-red"
+                >
+                    View
+                </a>
 
                 </div>
 
