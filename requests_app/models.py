@@ -33,7 +33,8 @@ class BloodRequest(models.Model):
 
     blood_group = models.CharField(
         max_length=3,
-        choices=BLOOD_GROUP_CHOICES
+        choices=BLOOD_GROUP_CHOICES,
+        default="A+"
     )
 
     hospital_name = models.CharField(
