@@ -1,0 +1,646 @@
+/* ========================================
+   FIND DONORS PAGE
+======================================== */
+
+.donor-list-page {
+    width: min(920px, calc(100% - 40px));
+
+    margin: 0 auto;
+
+    padding: 48px 0 70px;
+}
+
+
+/* ========================================
+   PAGE HEADER
+======================================== */
+
+.donor-list-header {
+    margin-bottom: 26px;
+}
+
+
+.donor-list-header .eyebrow {
+    margin-bottom: 6px;
+
+    color: #777;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+.donor-list-header h1 {
+    margin-bottom: 4px;
+
+    font-family: var(--serif);
+
+    font-size: 30px;
+
+    line-height: 1.2;
+}
+
+
+.result-count {
+    color: #666;
+
+    font-size: 11px;
+}
+
+
+/* ========================================
+   FILTER CARD
+======================================== */
+
+.donor-filters {
+    margin-bottom: 28px;
+
+    padding: 18px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+}
+
+
+.donor-filters form {
+    display: grid;
+
+    grid-template-columns: 1fr 148px 115px;
+
+    align-items: end;
+
+    gap: 14px;
+}
+
+
+/* ========================================
+   FILTER GROUP
+======================================== */
+
+.filter-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #444;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.7px;
+}
+
+
+/* ========================================
+   BLOOD GROUP
+======================================== */
+
+.blood-options {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    flex-wrap: wrap;
+}
+
+
+.blood-option {
+    min-width: 32px;
+
+    height: 26px;
+
+    padding: 0 9px;
+
+    background: #f6f6f6;
+
+    border: 1px solid #eeeeee;
+
+    border-radius: 4px;
+
+    color: #333;
+
+    font-size: 9px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.blood-option:hover {
+    border-color: var(--red);
+
+    color: var(--red);
+}
+
+
+.blood-option.active {
+    background: var(--red);
+
+    border-color: var(--red);
+
+    color: var(--white);
+}
+
+
+/* ========================================
+   INPUTS
+======================================== */
+
+.location-filter input,
+.availability-filter select {
+    width: 100%;
+
+    height: 36px;
+
+    padding: 0 11px;
+
+    background: var(--white);
+
+    border: 1px solid #dddddd;
+
+    border-radius: 6px;
+
+    color: var(--text);
+
+    font-size: 11px;
+
+    outline: none;
+}
+
+
+.location-filter input:focus,
+.availability-filter select:focus {
+    border-color: var(--red);
+
+    box-shadow: 0 0 0 2px rgba(201, 24, 54, 0.08);
+}
+
+
+.location-filter input::placeholder {
+    color: #999;
+}
+
+
+/* ========================================
+   FILTER ACTIONS
+======================================== */
+
+.filter-actions {
+    display: none;
+}
+
+
+/* ========================================
+   DONOR GRID
+======================================== */
+
+.donor-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 12px;
+}
+
+
+/* ========================================
+   DONOR CARD
+======================================== */
+
+.donor-card {
+    min-width: 0;
+
+    padding: 17px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.donor-card:hover {
+    border-color: #d0d0d0;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+
+/* ========================================
+   CARD HEADER
+======================================== */
+
+.donor-card-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    min-width: 0;
+
+    margin-bottom: 14px;
+}
+
+
+.donor-avatar {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: var(--red);
+
+    border-radius: 50%;
+
+    color: var(--white);
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.donor-card-name {
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+.donor-card-name h2 {
+    overflow: hidden;
+
+    margin-bottom: 2px;
+
+    color: #111;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.donor-card-name span {
+    color: var(--red);
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* ========================================
+   AVAILABILITY BADGE
+======================================== */
+
+.availability-badge {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    min-height: 20px;
+
+    padding: 0 8px;
+
+    border-radius: 20px;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+.availability-badge.available {
+    background: #d5f8e3;
+
+    color: #07843e;
+}
+
+
+.availability-badge.unavailable {
+    background: #f2f2f2;
+
+    color: #777;
+}
+
+
+/* ========================================
+   DONOR META
+======================================== */
+
+.donor-meta {
+    margin-bottom: 11px;
+}
+
+
+.donor-meta p {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 6px;
+
+    color: #555;
+
+    font-size: 10px;
+}
+
+
+.meta-icon {
+    width: 12px;
+
+    color: var(--red);
+
+    font-size: 8px;
+}
+
+
+/* ========================================
+   DESCRIPTION
+======================================== */
+
+.donor-description {
+    min-height: 34px;
+
+    margin-bottom: 13px;
+
+    color: #555;
+
+    font-size: 9px;
+
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   CARD FOOTER
+======================================== */
+
+.donor-card-footer {
+    padding-top: 11px;
+
+    border-top: 1px solid var(--soft-border);
+}
+
+
+.view-profile {
+    color: var(--red);
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+
+.view-profile:hover {
+    color: var(--red-dark);
+}
+
+
+/* ========================================
+   PAGINATION
+======================================== */
+
+.pagination {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-top: 28px;
+}
+
+
+.page-numbers {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+
+.page-link {
+    min-width: 32px;
+    height: 32px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 9px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 5px;
+
+    color: #444;
+
+    font-size: 10px;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.page-link:hover {
+    border-color: var(--red);
+
+    color: var(--red);
+}
+
+
+.page-link.active {
+    background: var(--red);
+
+    border-color: var(--red);
+
+    color: var(--white);
+
+    cursor: default;
+}
+
+
+/* ========================================
+   EMPTY STATE
+======================================== */
+
+.empty-donors {
+    padding: 55px 20px;
+
+    text-align: center;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+}
+
+
+.empty-donors h2 {
+    margin-bottom: 7px;
+
+    font-family: var(--serif);
+
+    font-size: 23px;
+}
+
+
+.empty-donors p {
+    margin-bottom: 20px;
+
+    color: #777;
+
+    font-size: 11px;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 850px) {
+
+    .donor-filters form {
+        grid-template-columns: 1fr 1fr;
+    }
+
+
+    .blood-filter {
+        grid-column: 1 / -1;
+    }
+
+
+    .donor-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .donor-list-page {
+        width: min(100% - 28px, 920px);
+
+        padding-top: 30px;
+    }
+
+
+    .donor-filters form {
+        grid-template-columns: 1fr;
+    }
+
+
+    .blood-filter {
+        grid-column: auto;
+    }
+
+
+    .filter-actions {
+        display: flex;
+
+        align-items: center;
+
+        gap: 12px;
+    }
+
+
+    .search-filter-btn {
+        min-height: 34px;
+
+        padding: 0 15px;
+
+        background: var(--red);
+
+        border: 1px solid var(--red);
+
+        border-radius: 5px;
+
+        color: var(--white);
+
+        font-size: 10px;
+
+        font-weight: 700;
+
+        cursor: pointer;
+    }
+
+
+    .clear-filters {
+        color: var(--red);
+
+        font-size: 10px;
+    }
+
+
+    .donor-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .pagination {
+        flex-wrap: wrap;
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    .donor-list-header h1 {
+        font-size: 26px;
+    }
+
+
+    .donor-card {
+        padding: 15px;
+    }
+
+}

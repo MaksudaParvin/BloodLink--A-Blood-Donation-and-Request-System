@@ -1,0 +1,442 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Find Blood Donors{% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/donors/donor_list.css' %}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<main class="donor-list-page">
+
+    <!-- =====================================
+         PAGE HEADER
+    ====================================== -->
+
+    <section class="donor-list-header">
+
+        <p class="eyebrow">
+            SEARCH
+        </p>
+
+        <h1>
+            Find Blood Donors
+        </h1>
+
+        <p class="result-count">
+            {{ total_donors }} donor{{ total_donors|pluralize }} found
+        </p>
+
+    </section>
+
+
+    <!-- =====================================
+         FILTERS
+    ====================================== -->
+
+    <section class="donor-filters">
+
+        <form method="GET">
+
+            <!-- BLOOD GROUP -->
+
+            <div class="filter-group blood-filter">
+
+                <label>
+                    Blood Group
+                </label>
+
+                <div class="blood-options">
+
+                    <button
+                        type="submit"
+                        name="blood_group"
+                        value=""
+                        class="blood-option {% if not blood_group %}active{% endif %}"
+                    >
+                        All
+                    </button>
+
+                    <button
+                        type="submit"
+                        name="blood_group"
+                        value="A+"
+                        class="blood-option {% if blood_group == 'A+' %}active{% endif %}"
+                    >
+                        A+
+                    </button>
+
+                    <button
+                        type="submit"
+                        name="blood_group"
+                        value="A-"
+                        class="blood-option {% if blood_group == 'A-' %}active{% endif %}"
+                    >
+                        A-
+                    </button>
+
+                    <button
+                        type="submit"
+                        name="blood_group"
+                        value="B+"
+                        class="blood-option {% if blood_group == 'B+' %}active{% endif %}"
+                    >
+                        B+
+                    </button>
+
+                    <button
+                        type="submit"
+                        name="blood_group"
+                        value="B-"
+                        class="blood-option {% if blood_group == 'B-' %}active{% endif %}"
+                    >
+                        B-
+                    </button>
+
+                    <button
+                        type="submit"
+                        name="blood_group"
+                        value="AB+"
+                        class="blood-option {% if blood_group == 'AB+' %}active{% endif %}"
+                    >
+                        AB+
+                    </button>
+
+                    <button
+                        type="submit"
+                        name="blood_group"
+                        value="AB-"
+                        class="blood-option {% if blood_group == 'AB-' %}active{% endif %}"
+                    >
+                        AB-
+                    </button>
+
+                    <button
+                        type="submit"
+                        name="blood_group"
+                        value="O+"
+                        class="blood-option {% if blood_group == 'O+' %}active{% endif %}"
+                    >
+                        O+
+                    </button>
+
+                    <button
+                        type="submit"
+                        name="blood_group"
+                        value="O-"
+                        class="blood-option {% if blood_group == 'O-' %}active{% endif %}"
+                    >
+                        O-
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOCATION -->
+
+            <div class="filter-group location-filter">
+
+                <label for="location">
+                    Location
+                </label>
+
+                <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    value="{{ location }}"
+                    placeholder="City or area..."
+                >
+
+            </div>
+
+
+            <!-- AVAILABILITY -->
+
+            <div class="filter-group availability-filter">
+
+                <label for="availability">
+                    Availability
+                </label>
+
+                <select
+                    id="availability"
+                    name="availability"
+                    onchange="this.form.submit()"
+                >
+
+                    <option
+                        value=""
+                        {% if not availability %}selected{% endif %}
+                    >
+                        All
+                    </option>
+
+                    <option
+                        value="available"
+                        {% if availability == "available" %}selected{% endif %}
+                    >
+                        Available
+                    </option>
+
+                    <option
+                        value="not_available"
+                        {% if availability == "not_available" %}selected{% endif %}
+                    >
+                        Not Available
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="filter-actions">
+
+                <button
+                    type="submit"
+                    class="search-filter-btn"
+                >
+                    Search
+                </button>
+
+                <a
+                    href="{% url 'donors:list' %}"
+                    class="clear-filters"
+                >
+                    Clear filters
+                </a>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================
+         DONOR CARDS
+    ====================================== -->
+
+    {% if donors %}
+
+        <section class="donor-grid">
+
+            {% for donor in donors %}
+
+                <article class="donor-card">
+
+                    <!-- CARD HEADER -->
+
+                    <div class="donor-card-header">
+
+                        <div class="donor-avatar">
+
+                            {% if donor.user.full_name %}
+                                {{ donor.user.full_name|slice:":1"|upper }}
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="donor-card-name">
+
+                            <h2>
+                                {{ donor.user.full_name }}
+                            </h2>
+
+                            <span>
+                                {{ donor.user.blood_group }}
+                            </span>
+
+                        </div>
+
+
+                        {% if donor.availability == "available" %}
+
+                            <span class="availability-badge available">
+                                Available
+                            </span>
+
+                        {% else %}
+
+                            <span class="availability-badge unavailable">
+                                Not Available
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- LOCATION -->
+
+                    <div class="donor-meta">
+
+                        <p>
+                            <span class="meta-icon">●</span>
+                            {{ donor.user.location }}
+                        </p>
+
+
+                        <p>
+
+                            <span class="meta-icon">▣</span>
+
+                            {% if donor.last_donation_date %}
+
+                                Last donated:
+                                {{ donor.last_donation_date|date:"Y-m-d" }}
+
+                            {% else %}
+
+                                Last donated: Not available
+
+                            {% endif %}
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <p class="donor-description">
+
+                        {% if donor.description %}
+
+                            {{ donor.description }}
+
+                        {% else %}
+
+                            No description provided.
+
+                        {% endif %}
+
+                    </p>
+
+
+                    <!-- CARD FOOTER -->
+
+                    <div class="donor-card-footer">
+
+                        <a
+                            href="{% url 'donors:detail' donor_profile.pk %}"
+                            class="view-profile"
+                        >
+                            View profile →
+                        </a>
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </section>
+
+
+        <!-- =====================================
+             PAGINATION
+        ====================================== -->
+
+        {% if page_obj.paginator.num_pages > 1 %}
+
+            <nav class="pagination">
+
+                {% if page_obj.has_previous %}
+
+                    <a
+                        href="?{{ query_params }}{% if query_params %}&{% endif %}page={{ page_obj.previous_page_number }}"
+                        class="page-link"
+                    >
+                        ← Previous
+                    </a>
+
+                {% endif %}
+
+
+                <div class="page-numbers">
+
+                    {% for num in page_obj.paginator.page_range %}
+
+                        {% if num == page_obj.number %}
+
+                            <span class="page-link active">
+                                {{ num }}
+                            </span>
+
+                        {% else %}
+
+                            <a
+                                href="?{{ query_params }}{% if query_params %}&{% endif %}page={{ num }}"
+                                class="page-link"
+                            >
+                                {{ num }}
+                            </a>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+
+
+                {% if page_obj.has_next %}
+
+                    <a
+                        href="?{{ query_params }}{% if query_params %}&{% endif %}page={{ page_obj.next_page_number }}"
+                        class="page-link"
+                    >
+                        Next →
+                    </a>
+
+                {% endif %}
+
+            </nav>
+
+        {% endif %}
+
+
+    {% else %}
+
+        <!-- EMPTY STATE -->
+
+        <section class="empty-donors">
+
+            <h2>
+                No donors found
+            </h2>
+
+            <p>
+                Try changing your blood group, location, or availability filters.
+            </p>
+
+            <a
+                href="{% url 'donors:list' %}"
+                class="btn btn-primary"
+            >
+                Clear filters
+            </a>
+
+        </section>
+
+    {% endif %}
+
+</main>
+
+{% endblock %}
