@@ -35,6 +35,11 @@ urlpatterns = [
         "donors/",
         include("donors.urls")
     ),
+
+    path(
+        "requests/",
+        include("requests_app.urls")
+    ),
 ]
 
 if settings.DEBUG:
