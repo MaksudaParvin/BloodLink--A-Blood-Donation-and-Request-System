@@ -20,4 +20,9 @@ urlpatterns = [
         name="my_requests"
     ),
 
+    path(
+        "",
+        views.request_list,
+        name="list"
+    ),
 ]

@@ -1,0 +1,382 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Blood Requests{% endblock %}
+
+{% block extra_css %}
+<link
+    rel="stylesheet"
+    href="{% static 'css/requests/request_list.css' %}"
+>
+{% endblock %}
+
+
+{% block content %}
+
+<main class="request-page">
+
+    <!-- PAGE HEADER -->
+
+    <div class="request-page-header">
+
+        <p class="eyebrow">
+            BROWSE
+        </p>
+
+        <h1>
+            Blood Requests
+        </h1>
+
+        <p class="request-count">
+            <span id="request-count">
+                {{ page_obj.paginator.count }}
+            </span>
+            requests
+        </p>
+
+    </div>
+
+
+    <!-- FILTERS -->
+
+    <section class="request-filters">
+
+        <div class="blood-filter">
+
+            <label>
+                Blood Group
+            </label>
+
+            <div class="blood-buttons">
+
+                <button
+                    type="button"
+                    class="blood-filter-btn {% if not blood_group %}active{% endif %}"
+                    data-blood=""
+                >
+                    All
+                </button>
+
+
+                <button
+                    type="button"
+                    class="blood-filter-btn {% if blood_group == 'A+' %}active{% endif %}"
+                    data-blood="A+"
+                >
+                    A+
+                </button>
+
+                <button
+                    type="button"
+                    class="blood-filter-btn {% if blood_group == 'A-' %}active{% endif %}"
+                    data-blood="A-"
+                >
+                    A-
+                </button>
+
+                <button
+                    type="button"
+                    class="blood-filter-btn {% if blood_group == 'B+' %}active{% endif %}"
+                    data-blood="B+"
+                >
+                    B+
+                </button>
+
+                <button
+                    type="button"
+                    class="blood-filter-btn {% if blood_group == 'B-' %}active{% endif %}"
+                    data-blood="B-"
+                >
+                    B-
+                </button>
+
+                <button
+                    type="button"
+                    class="blood-filter-btn {% if blood_group == 'AB+' %}active{% endif %}"
+                    data-blood="AB+"
+                >
+                    AB+
+                </button>
+
+                <button
+                    type="button"
+                    class="blood-filter-btn {% if blood_group == 'AB-' %}active{% endif %}"
+                    data-blood="AB-"
+                >
+                    AB-
+                </button>
+
+                <button
+                    type="button"
+                    class="blood-filter-btn {% if blood_group == 'O+' %}active{% endif %}"
+                    data-blood="O+"
+                >
+                    O+
+                </button>
+
+                <button
+                    type="button"
+                    class="blood-filter-btn {% if blood_group == 'O-' %}active{% endif %}"
+                    data-blood="O-"
+                >
+                    O-
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="location-filter">
+
+            <label for="location-input">
+                Location
+            </label>
+
+            <input
+                type="text"
+                id="location-input"
+                placeholder="City or area..."
+                value="{{ location }}"
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <div class="status-filter">
+
+            <label for="status-select">
+                Status
+            </label>
+
+            <select id="status-select">
+
+                <option
+                    value=""
+                    {% if not status %}selected{% endif %}
+                >
+                    All
+                </option>
+
+                <option
+                    value="pending"
+                    {% if status == "pending" %}selected{% endif %}
+                >
+                    Pending
+                </option>
+
+                <option
+                    value="fulfilled"
+                    {% if status == "fulfilled" %}selected{% endif %}
+                >
+                    Fulfilled
+                </option>
+
+                <option
+                    value="cancelled"
+                    {% if status == "cancelled" %}selected{% endif %}
+                >
+                    Cancelled
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="clear-filters"
+            class="clear-filter"
+        >
+            Clear
+        </button>
+
+    </section>
+
+
+    <!-- REQUEST RESULTS -->
+
+    <div id="request-results">
+
+        {% include "requests/request_results.html" %}
+
+    </div>
+
+</main>
+
+<script>
+const locationInput = document.getElementById("location-input");
+const statusSelect = document.getElementById("status-select");
+const clearButton = document.getElementById("clear-filters");
+const resultsContainer = document.getElementById("request-results");
+
+let currentBloodGroup = "";
+
+
+/* ========================================
+   LOAD FILTERED REQUESTS
+======================================== */
+
+function loadRequests(page = 1) {
+
+    const location = locationInput.value.trim();
+    const status = statusSelect.value;
+
+    const params = new URLSearchParams();
+
+    if (currentBloodGroup) {
+        params.set("blood_group", currentBloodGroup);
+    }
+
+    if (location) {
+        params.set("location", location);
+    }
+
+    if (status) {
+        params.set("status", status);
+    }
+
+    params.set("page", page);
+
+
+    fetch(
+        "{% url 'requests_app:list' %}?" + params.toString(),
+        {
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        }
+    )
+    .then(response => response.text())
+    .then(html => {
+
+        resultsContainer.innerHTML = html;
+
+        attachPaginationEvents();
+
+    })
+    .catch(error => {
+
+        console.error("Filter error:", error);
+
+    });
+}
+
+
+/* ========================================
+   BLOOD GROUP FILTER
+======================================== */
+
+document.querySelectorAll(".blood-filter-btn").forEach(button => {
+
+    button.addEventListener("click", function () {
+
+        document
+            .querySelectorAll(".blood-filter-btn")
+            .forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+        this.classList.add("active");
+
+        currentBloodGroup = this.dataset.blood || "";
+
+        loadRequests();
+
+    });
+
+});
+
+
+/* ========================================
+   LOCATION FILTER
+======================================== */
+
+locationInput.addEventListener("input", function () {
+
+    loadRequests();
+
+});
+
+
+/* ========================================
+   STATUS FILTER
+======================================== */
+
+statusSelect.addEventListener("change", function () {
+
+    loadRequests();
+
+});
+
+
+/* ========================================
+   CLEAR FILTERS
+======================================== */
+
+clearButton.addEventListener("click", function () {
+
+    locationInput.value = "";
+
+    statusSelect.value = "";
+
+    currentBloodGroup = "";
+
+
+    document
+        .querySelectorAll(".blood-filter-btn")
+        .forEach(button => {
+
+            button.classList.remove("active");
+
+        });
+
+
+    document
+        .querySelector('.blood-filter-btn[data-blood=""]')
+        .classList.add("active");
+
+
+    loadRequests();
+
+});
+
+
+/* ========================================
+   PAGINATION
+======================================== */
+
+function attachPaginationEvents() {
+
+    document
+        .querySelectorAll(".pagination-link")
+        .forEach(button => {
+
+            button.addEventListener("click", function () {
+
+                const page = this.dataset.page;
+
+                loadRequests(page);
+
+            });
+
+        });
+
+}
+
+
+attachPaginationEvents();
+
+</script>
+
+{% endblock %}
+
+{% comment %} 
+{% block extra_js %}
+
+<script src="{% static 'js/requests/request_list.js' %}"></script>
+
+{% endblock %} {% endcomment %}

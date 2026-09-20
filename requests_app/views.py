@@ -58,3 +58,60 @@ def my_requests(request):
             "page_obj": page_obj,
         }
     )
+
+
+def request_list(request):
+
+    blood_group = request.GET.get("blood_group", "")
+    location = request.GET.get("location", "")
+    status = request.GET.get("status", "")
+
+    requests = BloodRequest.objects.select_related(
+        "requester"
+    ).all()
+
+    # Blood group filter
+    if blood_group:
+        requests = requests.filter(
+            blood_group=blood_group
+        )
+
+    # Location filter
+    if location:
+        requests = requests.filter(
+            hospital_location__icontains=location
+        )
+
+    # Status filter
+    if status:
+        requests = requests.filter(
+            status=status
+        )
+
+    paginator = Paginator(requests, 6)
+
+    page_number = request.GET.get("page")
+
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "page_obj": page_obj,
+        "requests": page_obj.object_list,
+        "blood_group": blood_group,
+        "location": location,
+        "status": status,
+    }
+
+    # AJAX request 
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
+        return render(
+            request,
+            "requests/request_results.html",
+            context
+        )
+
+    return render(
+        request,
+        "requests/request_list.html",
+        context
+    )

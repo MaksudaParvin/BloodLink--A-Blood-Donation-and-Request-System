@@ -1,0 +1,162 @@
+{% if requests %}
+
+    <div class="request-grid">
+
+        {% for request in requests %}
+
+            <article class="request-card">
+
+                <div class="request-card-top">
+
+                    <div class="request-blood">
+                        {{ request.blood_group }}
+                    </div>
+
+
+                    {% if request.status == "pending" %}
+
+                        <span class="status-badge pending">
+                            Pending
+                        </span>
+
+                    {% elif request.status == "fulfilled" %}
+
+                        <span class="status-badge fulfilled">
+                            Fulfilled
+                        </span>
+
+                    {% else %}
+
+                        <span class="status-badge cancelled">
+                            Cancelled
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="request-card-body">
+
+                    <h2>
+                        {{ request.patient_name }}
+                    </h2>
+
+                    <p class="hospital">
+                        {{ request.hospital_name }}
+                    </p>
+
+                    <p class="location">
+                        {{ request.hospital_location }}
+                    </p>
+
+                    <p class="request-meta">
+                        {{ request.bags_required }}
+                        {% if request.bags_required == 1 %}
+                            bag
+                        {% else %}
+                            bags
+                        {% endif %}
+
+                        · Due {{ request.required_date|date:"Y-m-d" }}
+                    </p>
+
+                </div>
+
+
+                <div class="request-card-footer">
+
+                    <a
+                        {% comment %} href="{% url 'requests_app:detail' request.pk %}" {% endcomment %}
+                        class="view-details"
+                    >
+                        View details →
+                    </a>
+
+                </div>
+
+            </article>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- PAGINATION -->
+
+    {% if page_obj.paginator.num_pages > 1 %}
+
+        <div class="pagination">
+
+            {% if page_obj.has_previous %}
+
+                <button
+                    type="button"
+                    class="page-btn pagination-link"
+                    data-page="{{ page_obj.previous_page_number }}"
+                >
+                    ← Previous
+                </button>
+
+            {% endif %}
+
+
+            {% for num in page_obj.paginator.page_range %}
+
+                {% if page_obj.number == num %}
+
+                    <button
+                        type="button"
+                        class="page-btn active"
+                        disabled
+                    >
+                        {{ num }}
+                    </button>
+
+                {% else %}
+
+                    <button
+                        type="button"
+                        class="page-btn pagination-link"
+                        data-page="{{ num }}"
+                    >
+                        {{ num }}
+                    </button>
+
+                {% endif %}
+
+            {% endfor %}
+
+
+            {% if page_obj.has_next %}
+
+                <button
+                    type="button"
+                    class="page-btn pagination-link"
+                    data-page="{{ page_obj.next_page_number }}"
+                >
+                    Next →
+                </button>
+
+            {% endif %}
+
+        </div>
+
+    {% endif %}
+
+
+{% else %}
+
+    <div class="empty-state">
+
+        <h2>
+            No blood requests found
+        </h2>
+
+        <p>
+            Try changing your filters.
+        </p>
+
+    </div>
+
+{% endif %}
