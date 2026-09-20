@@ -131,3 +131,68 @@ def request_detail(request, pk):
             "blood_request": blood_request
         }
     )
+
+
+
+@login_required
+def edit_request(request, pk):
+
+    blood_request = get_object_or_404(
+        BloodRequest,
+        pk=pk,
+        requester=request.user
+    )
+
+    if request.method == "POST":
+
+        form = BloodRequestForm(
+            request.POST,
+            instance=blood_request
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect(
+                "requests_app:detail",
+                pk=blood_request.pk
+            )
+
+    else:
+
+        form = BloodRequestForm(
+            instance=blood_request
+        )
+
+    return render(
+        request,
+        "requests/request_edit.html",
+        {
+            "form": form,
+            "blood_request": blood_request,
+        }
+    )
+
+
+@login_required
+def delete_request(request, pk):
+
+    blood_request = get_object_or_404(
+        BloodRequest,
+        pk=pk,
+        requester=request.user
+    )
+
+    if request.method == "POST":
+
+        blood_request.delete()
+
+        return redirect(
+            "requests_app:my_requests"
+        )
+
+    return redirect(
+        "requests_app:detail",
+        pk=blood_request.pk
+    )

@@ -109,7 +109,7 @@
                     <div class="request-actions">
 
                         <a
-                            href="#"
+                            href="{% url 'requests_app:detail' blood_request.pk %}"
                             class="request-btn"
                         >
                             View
@@ -117,19 +117,20 @@
 
 
                         <a
-                            href="#"
+                            href="{% url 'requests_app:edit' blood_request.pk %}"
                             class="request-btn"
                         >
                             Edit
                         </a>
 
 
-                        <form method="POST" action="#">
+                        <form method="POST" action="{% url 'requests_app:delete' blood_request.pk %}" class="delete-form">
                             {% csrf_token %}
 
                             <button
                                 type="submit"
                                 class="request-btn request-btn-delete"
+                                onclick="return confirm('Are you sure you want to delete this request?');"
                             >
                                 Delete
                             </button>

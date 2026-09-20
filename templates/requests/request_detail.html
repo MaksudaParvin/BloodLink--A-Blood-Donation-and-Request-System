@@ -333,7 +333,7 @@
             {% if blood_request.requester == request.user %}
 
                 <a
-                    {% comment %} href="{% url 'requests_app:edit' blood_request.pk %}" {% endcomment %}
+                    href="{% url 'requests_app:edit' blood_request.pk %}"
                     class="btn btn-outline"
                 >
                     Edit
@@ -342,7 +342,7 @@
 
                 <form
                     method="POST"
-                    {% comment %} action="{% url 'requests_app:delete' blood_request.pk %}" {% endcomment %}
+                    action="{% url 'requests_app:delete' blood_request.pk %}"
                 >
 
                     {% csrf_token %}

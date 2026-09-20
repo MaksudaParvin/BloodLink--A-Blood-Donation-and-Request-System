@@ -532,3 +532,83 @@
     }
 
 }
+
+/* ========================================
+   REQUEST CARD ACTIONS
+======================================== */
+
+.request-card-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+/* ========================================
+   ACTION BUTTON
+======================================== */
+
+.request-action-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 48px;
+    height: 32px;
+
+    padding: 0 12px;
+
+    background: var(--white);
+
+    border: 1px solid #dddddd;
+
+    border-radius: 6px;
+
+    color: #333;
+
+    font-size: 10px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.request-action-btn:hover {
+    border-color: var(--red);
+
+    color: var(--red);
+}
+
+
+/* ========================================
+   DELETE
+======================================== */
+
+.delete-form {
+    margin: 0;
+}
+
+
+.delete-btn {
+    border-color: #ffb8c1;
+
+    color: #e3263f;
+}
+
+
+.delete-btn:hover {
+    background: #fff1f3;
+
+    border-color: #e3263f;
+
+    color: #e3263f;
+}

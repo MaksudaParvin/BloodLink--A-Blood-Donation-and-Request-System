@@ -31,4 +31,16 @@ urlpatterns = [
         views.request_detail,
         name="detail"
     ),
+
+    path(
+        "<int:pk>/edit/",
+        views.edit_request,
+        name="edit"
+    ),
+
+    path(
+        "<int:pk>/delete/",
+        views.delete_request,
+        name="delete"
+    ),
 ]

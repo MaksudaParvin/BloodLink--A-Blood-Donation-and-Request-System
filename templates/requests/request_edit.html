@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Edit Blood Request{% endblock %}
+
+{% block extra_css %}
+<link
+    rel="stylesheet"
+    href="{% static 'css/requests/create_request.css' %}"
+>
+{% endblock %}
+
+
+{% block content %}
+
+<main class="request-page">
+
+    <!-- PAGE HEADER -->
+
+    <div class="request-page-header">
+
+        <p class="eyebrow">
+            EDIT
+        </p>
+
+        <h1>
+            Edit Blood Request
+        </h1>
+
+    </div>
+
+
+    <!-- FORM CARD -->
+
+    <section class="request-form-card">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- FORM ERRORS -->
+
+            {% if form.non_field_errors %}
+
+                <div class="form-errors">
+                    {{ form.non_field_errors }}
+                </div>
+
+            {% endif %}
+
+
+            <!-- PATIENT NAME -->
+
+            <div class="form-group">
+
+                <label for="{{ form.patient_name.id_for_label }}">
+                    Patient Name
+                </label>
+
+                {{ form.patient_name }}
+
+                {% if form.patient_name.errors %}
+                    <div class="field-error">
+                        {{ form.patient_name.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- BLOOD GROUP + BAGS -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="{{ form.blood_group.id_for_label }}">
+                        Blood Group
+                    </label>
+
+                    {{ form.blood_group }}
+
+                    {% if form.blood_group.errors %}
+                        <div class="field-error">
+                            {{ form.blood_group.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="{{ form.bags_required.id_for_label }}">
+                        Bags Required
+                    </label>
+
+                    {{ form.bags_required }}
+
+                    {% if form.bags_required.errors %}
+                        <div class="field-error">
+                            {{ form.bags_required.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- HOSPITAL -->
+
+            <div class="form-group">
+
+                <label for="{{ form.hospital_name.id_for_label }}">
+                    Hospital Name
+                </label>
+
+                {{ form.hospital_name }}
+
+                {% if form.hospital_name.errors %}
+                    <div class="field-error">
+                        {{ form.hospital_name.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- LOCATION + DATE -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="{{ form.hospital_location.id_for_label }}">
+                        Location / City
+                    </label>
+
+                    {{ form.hospital_location }}
+
+                    {% if form.hospital_location.errors %}
+                        <div class="field-error">
+                            {{ form.hospital_location.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="{{ form.required_date.id_for_label }}">
+                        Required Date
+                    </label>
+
+                    {{ form.required_date }}
+
+                    {% if form.required_date.errors %}
+                        <div class="field-error">
+                            {{ form.required_date.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTACT -->
+
+            <div class="form-group">
+
+                <label for="{{ form.contact_number.id_for_label }}">
+                    Contact Number
+                </label>
+
+                {{ form.contact_number }}
+
+                {% if form.contact_number.errors %}
+                    <div class="field-error">
+                        {{ form.contact_number.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="{{ form.description.id_for_label }}">
+                    Reason / Description
+                </label>
+
+                {{ form.description }}
+
+                {% if form.description.errors %}
+                    <div class="field-error">
+                        {{ form.description.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Save Changes
+                </button>
+
+
+                <a
+                    href="{% url 'requests_app:detail' blood_request.pk %}"
+                    class="btn btn-outline"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</main>
+
+{% endblock %}
