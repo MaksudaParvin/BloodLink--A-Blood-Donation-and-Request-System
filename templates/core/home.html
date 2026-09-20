@@ -49,7 +49,7 @@
         <div class="hero-actions">
 
             <a
-                href="#"
+                href="{% url 'donors:list' %}"
                 class="btn btn-light"
             >
                 Find Blood Donor
@@ -444,7 +444,7 @@
             {% if user.is_authenticated %}
 
                 <a
-                    href="#"
+                    href="{% url 'accounts:profile' %}"
                     class="btn btn-light"
                 >
                     Update My Profile
