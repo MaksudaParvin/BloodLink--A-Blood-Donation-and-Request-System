@@ -25,4 +25,10 @@ urlpatterns = [
         views.request_list,
         name="list"
     ),
+
+    path(
+        "<int:pk>/",
+        views.request_detail,
+        name="detail"
+    ),
 ]

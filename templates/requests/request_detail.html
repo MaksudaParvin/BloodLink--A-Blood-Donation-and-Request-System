@@ -1,0 +1,367 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    {{ blood_request.patient_name }}
+{% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/requests/request_detail.css' %}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<main class="request-detail-page">
+
+    <!-- BACK LINK -->
+
+    <a
+        href="{% url 'requests_app:list' %}"
+        class="back-link"
+    >
+        ← Back to requests
+    </a>
+
+
+    <!-- DETAIL CARD -->
+
+    <section class="request-detail-card">
+
+
+        <!-- HEADER -->
+
+        <header class="request-detail-header">
+
+            <div class="request-header-top">
+
+                <div class="request-blood-badge">
+                    {{ blood_request.blood_group }}
+                </div>
+
+
+                {% if blood_request.status == "pending" %}
+
+                    <span class="request-status pending">
+                        Pending
+                    </span>
+
+                {% elif blood_request.status == "fulfilled" %}
+
+                    <span class="request-status fulfilled">
+                        Fulfilled
+                    </span>
+
+                {% elif blood_request.status == "cancelled" %}
+
+                    <span class="request-status cancelled">
+                        Cancelled
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <h1>
+                Patient: {{ blood_request.patient_name }}
+            </h1>
+
+
+            <p class="posted-info">
+
+                Posted by
+                {{ blood_request.requester.full_name }}
+
+                ·
+
+                {{ blood_request.created_at|date:"Y-m-d" }}
+
+            </p>
+
+        </header>
+
+
+        <!-- INFORMATION -->
+
+        <div class="request-information">
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Blood Group
+                </span>
+
+                <strong>
+                    {{ blood_request.blood_group }}
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Bags Required
+                </span>
+
+                <strong>
+
+                    {{ blood_request.bags_required }}
+
+                    {% if blood_request.bags_required == 1 %}
+                        bag
+                    {% else %}
+                        bags
+                    {% endif %}
+
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Hospital
+                </span>
+
+                <strong>
+                    {{ blood_request.hospital_name }}
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Location
+                </span>
+
+                <strong>
+                    {{ blood_request.hospital_location }}
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Required By
+                </span>
+
+                <strong>
+                    {{ blood_request.required_date|date:"Y-m-d" }}
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Contact
+                </span>
+
+                <strong>
+                    {{ blood_request.contact_number }}
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span class="info-label">
+                    Status
+                </span>
+
+                <strong>
+                    {{ blood_request.get_status_display }}
+                </strong>
+
+            </div>
+
+
+            <div class="info-about">
+
+                <span class="info-label">
+                    Description
+                </span>
+
+                <p>
+
+                    {% if blood_request.description %}
+                        {{ blood_request.description }}
+                    {% else %}
+                        No description provided.
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- OWNER STATUS UPDATE -->
+
+        {% if blood_request.requester == request.user %}
+
+        <div class="status-update">
+
+            <span class="status-update-label">
+                Update Status
+            </span>
+
+
+            <div class="status-buttons">
+
+                <form
+                    method="POST"
+                    {% comment %} action="{% url 'requests_app:update_status' blood_request.pk %}" {% endcomment %}
+                >
+
+                    {% csrf_token %}
+
+                    <input
+                        type="hidden"
+                        name="status"
+                        value="pending"
+                    >
+
+                    <button
+                        type="submit"
+                        class="
+                            status-btn
+                            {% if blood_request.status == 'pending' %}
+                                active
+                            {% endif %}
+                        "
+                    >
+                        Pending
+                    </button>
+
+                </form>
+
+
+                <form
+                    method="POST"
+                    {% comment %} action="{% url 'requests_app:update_status' blood_request.pk %}" {% endcomment %}
+                >
+
+                    {% csrf_token %}
+
+                    <input
+                        type="hidden"
+                        name="status"
+                        value="fulfilled"
+                    >
+
+                    <button
+                        type="submit"
+                        class="
+                            status-btn
+                            {% if blood_request.status == 'fulfilled' %}
+                                active
+                            {% endif %}
+                        "
+                    >
+                        Fulfilled
+                    </button>
+
+                </form>
+
+
+                <form
+                    method="POST"
+                    {% comment %} action="{% url 'requests_app:update_status' blood_request.pk %}" {% endcomment %}
+                >
+
+                    {% csrf_token %}
+
+                    <input
+                        type="hidden"
+                        name="status"
+                        value="cancelled"
+                    >
+
+                    <button
+                        type="submit"
+                        class="
+                            status-btn
+                            {% if blood_request.status == 'cancelled' %}
+                                active
+                            {% endif %}
+                        "
+                    >
+                        Cancelled
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- ACTIONS -->
+
+        <div class="request-detail-actions">
+
+
+            <a
+                href="tel:{{ blood_request.contact_number }}"
+                class="contact-btn"
+            >
+                ☎ Contact Now
+            </a>
+
+
+            {% if blood_request.requester == request.user %}
+
+                <a
+                    {% comment %} href="{% url 'requests_app:edit' blood_request.pk %}" {% endcomment %}
+                    class="btn btn-outline"
+                >
+                    Edit
+                </a>
+
+
+                <form
+                    method="POST"
+                    {% comment %} action="{% url 'requests_app:delete' blood_request.pk %}" {% endcomment %}
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-delete"
+                    >
+                        Delete
+                    </button>
+
+                </form>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+</main>
+
+{% endblock %}

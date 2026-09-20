@@ -115,3 +115,19 @@ def request_list(request):
         "requests/request_list.html",
         context
     )
+
+
+def request_detail(request, pk):
+
+    blood_request = get_object_or_404(
+        BloodRequest,
+        pk=pk
+    )
+
+    return render(
+        request,
+        "requests/request_detail.html",
+        {
+            "blood_request": blood_request
+        }
+    )
