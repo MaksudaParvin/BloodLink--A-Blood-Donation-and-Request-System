@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}My Requests{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/requests/my_requests.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+<main class="my-requests-page">
+
+    <!-- PAGE HEADER -->
+
+    <div class="my-requests-header">
+
+        <div>
+            <p class="eyebrow">
+                DASHBOARD
+            </p>
+
+            <h1>
+                My Requests
+            </h1>
+
+            <p class="request-count">
+                {{ page_obj.paginator.count }}
+                {% if page_obj.paginator.count == 1 %}
+                    total request
+                {% else %}
+                    total requests
+                {% endif %}
+            </p>
+        </div>
+
+
+        <a
+            href="{% url 'requests_app:create' %}"
+            class="new-request-btn"
+        >
+            + New Request
+        </a>
+
+    </div>
+
+
+    <!-- REQUEST LIST -->
+
+    {% if requests %}
+
+        <div class="request-list">
+
+            {% for blood_request in requests %}
+
+                <article class="request-card">
+
+                    <!-- BLOOD GROUP -->
+
+                    <div class="request-blood">
+                        {{ blood_request.blood_group }}
+                    </div>
+
+
+                    <!-- REQUEST INFO -->
+
+                    <div class="request-info">
+
+                        <div class="request-title-row">
+
+                            <h2>
+                                {{ blood_request.patient_name }}
+                            </h2>
+
+                            <span
+                                class="request-status {{ blood_request.status }}"
+                            >
+                                {{ blood_request.get_status_display }}
+                            </span>
+
+                        </div>
+
+
+                        <p class="request-hospital">
+                            {{ blood_request.hospital_name }}
+                            ·
+                            {{ blood_request.hospital_location }}
+                        </p>
+
+
+                        <p class="request-meta">
+                            {{ blood_request.bags_required }}
+                            {% if blood_request.bags_required == 1 %}
+                                bag
+                            {% else %}
+                                bags
+                            {% endif %}
+
+                            · Due {{ blood_request.required_date }}
+                        </p>
+
+                    </div>
+
+
+                    <!-- ACTIONS -->
+
+                    <div class="request-actions">
+
+                        <a
+                            href="#"
+                            class="request-btn"
+                        >
+                            View
+                        </a>
+
+
+                        <a
+                            href="#"
+                            class="request-btn"
+                        >
+                            Edit
+                        </a>
+
+
+                        <form method="POST" action="#">
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="request-btn request-btn-delete"
+                            >
+                                Delete
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- PAGINATION -->
+
+        {% if page_obj.paginator.num_pages > 1 %}
+
+            <div class="pagination">
+
+                {% if page_obj.has_previous %}
+
+                    <a
+                        href="?page={{ page_obj.previous_page_number }}"
+                        class="page-btn"
+                    >
+                        ← Previous
+                    </a>
+
+                {% endif %}
+
+
+                <div class="page-numbers">
+
+                    {% for num in page_obj.paginator.page_range %}
+
+                        {% if page_obj.number == num %}
+
+                            <span class="page-number active">
+                                {{ num }}
+                            </span>
+
+                        {% else %}
+
+                            <a
+                                href="?page={{ num }}"
+                                class="page-number"
+                            >
+                                {{ num }}
+                            </a>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+
+
+                {% if page_obj.has_next %}
+
+                    <a
+                        href="?page={{ page_obj.next_page_number }}"
+                        class="page-btn"
+                    >
+                        Next →
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+
+    {% else %}
+
+        <!-- EMPTY STATE -->
+
+        <div class="empty-requests">
+
+            <h2>
+                No blood requests yet
+            </h2>
+
+            <p>
+                You have not created any blood request.
+            </p>
+
+            <a
+                href="{% url 'requests_app:create' %}"
+                class="new-request-btn"
+            >
+                + Create Request
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</main>
+
+{% endblock %}

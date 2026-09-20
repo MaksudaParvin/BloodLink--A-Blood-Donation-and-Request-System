@@ -1,0 +1,534 @@
+/* ========================================
+   MY REQUESTS PAGE
+======================================== */
+
+.my-requests-page {
+    width: min(920px, calc(100% - 40px));
+
+    margin: 0 auto;
+
+    padding: 48px 0 70px;
+}
+
+
+/* ========================================
+   PAGE HEADER
+======================================== */
+
+.my-requests-header {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    margin-bottom: 28px;
+}
+
+
+.eyebrow {
+
+    margin-bottom: 6px;
+
+    color: #777;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+
+.my-requests-header h1 {
+
+    font-family: var(--serif);
+
+    font-size: 30px;
+
+    line-height: 1.2;
+}
+
+
+.request-count {
+
+    margin-top: 4px;
+
+    color: #777;
+
+    font-size: 11px;
+}
+
+
+/* ========================================
+   NEW REQUEST BUTTON
+======================================== */
+
+.new-request-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 11px 18px;
+
+    background: var(--red);
+
+    color: var(--white);
+
+    border-radius: 6px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.new-request-btn:hover {
+
+    background: #a91430;
+
+    color: var(--white);
+
+    transform: translateY(-1px);
+}
+
+
+/* ========================================
+   REQUEST LIST
+======================================== */
+
+.request-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+
+/* ========================================
+   REQUEST CARD
+======================================== */
+
+.request-card {
+
+    display: grid;
+
+    grid-template-columns: 48px 1fr auto;
+
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 20px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+
+/* ========================================
+   BLOOD GROUP
+======================================== */
+
+.request-blood {
+
+    width: 40px;
+
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #fff0f2;
+
+    color: var(--red);
+
+    border-radius: 6px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+/* ========================================
+   REQUEST INFO
+======================================== */
+
+.request-info {
+
+    min-width: 0;
+}
+
+
+.request-title-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin-bottom: 5px;
+}
+
+
+.request-title-row h2 {
+
+    margin: 0;
+
+    color: #111;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+/* ========================================
+   STATUS
+======================================== */
+
+.request-status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 3px 8px;
+
+    border-radius: 20px;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+.request-status.pending {
+
+    background: #fff3cd;
+
+    color: #856404;
+}
+
+
+.request-status.fulfilled {
+
+    background: #d9f8e6;
+
+    color: #08753b;
+}
+
+
+.request-status.cancelled {
+
+    background: #f1f1f1;
+
+    color: #777;
+}
+
+
+/* ========================================
+   HOSPITAL
+======================================== */
+
+.request-hospital {
+
+    margin: 0 0 4px;
+
+    color: #444;
+
+    font-size: 10px;
+}
+
+
+.request-meta {
+
+    margin: 0;
+
+    color: #777;
+
+    font-size: 10px;
+}
+
+
+/* ========================================
+   ACTIONS
+======================================== */
+
+.request-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+}
+
+
+.request-actions form {
+
+    margin: 0;
+}
+
+
+.request-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 44px;
+
+    padding: 7px 11px;
+
+    background: var(--white);
+
+    color: #333;
+
+    border: 1px solid #ddd;
+
+    border-radius: 6px;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+
+.request-btn:hover {
+
+    border-color: #bbb;
+
+    color: #111;
+}
+
+
+.request-btn-delete {
+
+    color: #e3263f;
+
+    border-color: #ffb8c1;
+
+    background: var(--white);
+}
+
+
+.request-btn-delete:hover {
+
+    color: #e3263f;
+
+    background: #fff1f3;
+
+    border-color: #e3263f;
+}
+
+
+/* ========================================
+   PAGINATION
+======================================== */
+
+.pagination {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 18px;
+
+    margin-top: 30px;
+}
+
+
+.page-numbers {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+
+.page-btn,
+.page-number {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 32px;
+
+    height: 32px;
+
+    padding: 0 9px;
+
+    color: #444;
+
+    border: 1px solid #ddd;
+
+    border-radius: 5px;
+
+    font-size: 10px;
+
+    text-decoration: none;
+}
+
+
+.page-btn:hover,
+.page-number:hover {
+
+    border-color: var(--red);
+
+    color: var(--red);
+}
+
+
+.page-number.active {
+
+    background: var(--red);
+
+    color: var(--white);
+
+    border-color: var(--red);
+}
+
+
+/* ========================================
+   EMPTY STATE
+======================================== */
+
+.empty-requests {
+
+    padding: 60px 20px;
+
+    text-align: center;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+}
+
+
+.empty-requests h2 {
+
+    margin-bottom: 8px;
+
+    font-family: var(--serif);
+
+    font-size: 22px;
+}
+
+
+.empty-requests p {
+
+    margin-bottom: 20px;
+
+    color: #777;
+
+    font-size: 12px;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 700px) {
+
+    .my-requests-page {
+
+        width: min(
+            100% - 28px,
+            920px
+        );
+
+        padding-top: 30px;
+    }
+
+
+    .my-requests-header {
+
+        align-items: flex-start;
+
+        gap: 20px;
+    }
+
+
+    .request-card {
+
+        grid-template-columns: 44px 1fr;
+
+        align-items: start;
+    }
+
+
+    .request-actions {
+
+        grid-column: 2;
+
+        padding-top: 4px;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .my-requests-header {
+
+        flex-direction: column;
+    }
+
+
+    .request-card {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .request-actions {
+
+        grid-column: auto;
+
+        flex-wrap: wrap;
+    }
+
+
+    .pagination {
+
+        gap: 8px;
+    }
+
+}
