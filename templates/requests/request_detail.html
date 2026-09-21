@@ -229,7 +229,7 @@
 
                 <form
                     method="POST"
-                    {% comment %} action="{% url 'requests_app:update_status' blood_request.pk %}" {% endcomment %}
+                    action="{% url 'requests_app:update_status' blood_request.pk %}"
                 >
 
                     {% csrf_token %}
@@ -257,7 +257,7 @@
 
                 <form
                     method="POST"
-                    {% comment %} action="{% url 'requests_app:update_status' blood_request.pk %}" {% endcomment %}
+                    action="{% url 'requests_app:update_status' blood_request.pk %}"
                 >
 
                     {% csrf_token %}
@@ -285,7 +285,7 @@
 
                 <form
                     method="POST"
-                    {% comment %} action="{% url 'requests_app:update_status' blood_request.pk %}" {% endcomment %}
+                    action="{% url 'requests_app:update_status' blood_request.pk %}"
                 >
 
                     {% csrf_token %}
@@ -341,15 +341,16 @@
 
 
                 <form
+                    id="deleteRequestForm"
                     method="POST"
                     action="{% url 'requests_app:delete' blood_request.pk %}"
                 >
-
                     {% csrf_token %}
 
                     <button
-                        type="submit"
-                        class="btn btn-delete"
+                        type="button"
+                        class="btn btn-delete delete-trigger"
+                        data-delete-form="deleteRequestForm"
                     >
                         Delete
                     </button>

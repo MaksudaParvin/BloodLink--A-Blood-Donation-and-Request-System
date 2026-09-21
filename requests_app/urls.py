@@ -43,4 +43,10 @@ urlpatterns = [
         views.delete_request,
         name="delete"
     ),
+
+    path(
+        "<int:pk>/status/",
+        views.update_status,
+        name="update_status"
+    ),
 ]

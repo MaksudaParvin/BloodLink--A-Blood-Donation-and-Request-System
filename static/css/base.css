@@ -49,6 +49,18 @@ body {
     color: var(--text);
     background: var(--white);
     line-height: 1.5;
+
+    /*
+        Fixed navbar-এর জন্য
+        content 55px নিচ থেকে শুরু হবে
+    */
+    padding-top: 55px;
+
+    /*
+        Fixed footer-এর জন্য
+        নিচে কিছু space থাকবে
+    */
+    padding-bottom: 55px;
 }
 
 
@@ -105,10 +117,24 @@ textarea {
     width: 100%;
     height: 55px;
 
+    /*
+        Navbar fixed থাকবে
+    */
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    /*
+        অন্য content-এর উপরে থাকবে
+    */
+    z-index: 1000;
+
     background: var(--white);
 
     border-bottom: 1px solid #e7e7e7;
 }
+
 
 .site-header .navbar {
     width: calc(100% - 160px);
@@ -149,8 +175,6 @@ textarea {
 
 
 .brand-icon {
-    /* margin: 0 auto 20px; */
-
     color: var(--red);
 
     font-size: 18px;
@@ -190,6 +214,17 @@ textarea {
 
 .nav-links a:hover {
     color: var(--red);
+}
+
+
+/*
+    Current page active navigation
+*/
+
+.nav-links a.active {
+    color: var(--red);
+
+    font-weight: 600;
 }
 
 
@@ -291,7 +326,27 @@ textarea {
 .site-footer {
     width: 100%;
 
-    padding: 30px 0;
+    height: 55px;
+
+    /*
+        Footer fixed থাকবে
+    */
+
+    position: fixed;
+
+    bottom: 0;
+    left: 0;
+
+    /*
+        Content-এর উপরে থাকবে
+    */
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
 
     border-top: 1px solid var(--soft-border);
 
@@ -317,6 +372,10 @@ textarea {
 
 }
 
+
+/* ========================================
+   RESPONSIVE - 950px
+======================================== */
 
 @media (max-width: 950px) {
 
@@ -344,10 +403,30 @@ textarea {
 }
 
 
+/* ========================================
+   RESPONSIVE - 800px
+======================================== */
+
 @media (max-width: 800px) {
 
     .site-header {
+        /*
+            Mobile-এ height automatic হবে
+            কারণ navigation নিচে যাবে
+        */
+
         height: auto;
+    }
+
+
+    /*
+        Mobile navbar fixed থাকলেও
+        body-এর top padding যথেষ্ট রাখতে হবে
+    */
+
+    body {
+        padding-top: 120px;
+        padding-bottom: 55px;
     }
 
 
@@ -410,10 +489,25 @@ textarea {
 }
 
 
+/* ========================================
+   RESPONSIVE - 520px
+======================================== */
+
 @media (max-width: 520px) {
 
     .site-header .navbar {
         width: calc(100% - 28px);
+    }
+
+
+    /*
+        Mobile navbar একটু বড় হলে
+        content যেন navbar-এর নিচে না ঢুকে যায়
+    */
+
+    body {
+        padding-top: 125px;
+        padding-bottom: 55px;
     }
 
 
@@ -440,6 +534,10 @@ textarea {
 }
 
 
+/* ========================================
+   RESPONSIVE - 400px
+======================================== */
+
 @media (max-width: 400px) {
 
     .nav-links {
@@ -451,6 +549,274 @@ textarea {
 
     .brand {
         font-size: 12px;
+    }
+
+
+    body {
+        padding-top: 125px;
+        padding-bottom: 55px;
+    }
+
+}
+
+
+/* ========================================
+   DELETE CONFIRMATION MODAL
+======================================== */
+
+.delete-modal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 2000;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+.delete-modal.show {
+    display: flex;
+}
+
+
+/* ========================================
+   MODAL OVERLAY
+======================================== */
+
+.delete-modal-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(17, 17, 17, 0.45);
+}
+
+
+/* ========================================
+   MODAL CARD
+======================================== */
+
+.delete-modal-card {
+    position: relative;
+
+    z-index: 1;
+
+    width: min(
+        400px,
+        calc(100% - 40px)
+    );
+
+    padding: 30px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.18);
+
+    text-align: center;
+
+    animation: deleteModalShow 0.18s ease;
+}
+
+
+/* ========================================
+   MODAL ICON
+======================================== */
+
+.delete-modal-icon {
+    width: 48px;
+    height: 48px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: var(--red-light);
+
+    color: var(--red);
+
+    border-radius: 50%;
+
+    font-size: 17px;
+}
+
+
+/* ========================================
+   MODAL TITLE
+======================================== */
+
+.delete-modal-card h2 {
+    margin-bottom: 8px;
+
+    color: var(--text);
+
+    font-family: var(--serif);
+
+    font-size: 22px;
+
+    line-height: 1.2;
+}
+
+
+/* ========================================
+   MODAL TEXT
+======================================== */
+
+.delete-modal-card p {
+    margin-bottom: 24px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   MODAL ACTIONS
+======================================== */
+
+.delete-modal-actions {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+}
+
+
+/* ========================================
+   MODAL BUTTON
+======================================== */
+
+.delete-modal-btn {
+    min-width: 100px;
+
+    min-height: 38px;
+
+    padding: 0 18px;
+
+    border-radius: 4px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+
+/* ========================================
+   CANCEL
+======================================== */
+
+.delete-modal-cancel {
+    background: var(--white);
+
+    color: var(--text);
+
+    border: 1px solid var(--border);
+}
+
+
+.delete-modal-cancel:hover {
+    border-color: #bdbdbd;
+
+    background: #f8f8f8;
+}
+
+
+/* ========================================
+   CONFIRM DELETE
+======================================== */
+
+.delete-modal-confirm {
+    background: var(--red);
+
+    color: var(--white);
+
+    border: 1px solid var(--red);
+}
+
+
+.delete-modal-confirm:hover {
+    background: var(--red-dark);
+
+    border-color: var(--red-dark);
+}
+
+
+/* ========================================
+   BODY LOCK
+======================================== */
+
+body.modal-open {
+    overflow: hidden;
+}
+
+
+/* ========================================
+   ANIMATION
+======================================== */
+
+@keyframes deleteModalShow {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(8px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 480px) {
+
+    .delete-modal-card {
+        width: calc(100% - 28px);
+
+        padding: 24px;
+    }
+
+
+    .delete-modal-actions {
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+    }
+
+
+    .delete-modal-btn {
+        width: 100%;
     }
 
 }

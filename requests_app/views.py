@@ -196,3 +196,27 @@ def delete_request(request, pk):
         "requests_app:detail",
         pk=blood_request.pk
     )
+
+
+@login_required
+def update_status(request, pk):
+
+    blood_request = get_object_or_404(
+        BloodRequest,
+        pk=pk,
+        requester=request.user
+    )
+
+    if request.method == "POST":
+
+        status = request.POST.get("status")
+
+        if status in ["pending", "fulfilled", "cancelled"]:
+
+            blood_request.status = status
+            blood_request.save()
+
+    return redirect(
+        "requests_app:detail",
+        pk=blood_request.pk
+    )

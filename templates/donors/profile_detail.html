@@ -16,7 +16,7 @@
 <main class="donor-page">
 
     <a
-        {% comment %} href="{% url 'donors:list' %}" {% endcomment %}
+        href="{% url 'donors:list' %}"
         class="back-link"
     >
         ← Back to donors
@@ -191,16 +191,16 @@
 
 
                 <form
+                    id="deleteDonorForm"
                     method="POST"
                     action="{% url 'donors:delete' donor_profile.pk %}"
                 >
-
                     {% csrf_token %}
 
                     <button
-                        type="submit"
-                        class="btn btn-delete"
-                        onclick="return confirm('Are you sure you want to delete your donor profile?');"
+                        type="button"
+                        class="btn btn-delete delete-trigger"
+                        data-delete-form="deleteDonorForm"
                     >
                         Delete
                     </button>
