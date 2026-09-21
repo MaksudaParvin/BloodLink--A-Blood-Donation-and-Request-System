@@ -3,7 +3,10 @@
 ======================================== */
 
 .donor-list-page {
-    width: min(920px, calc(100% - 40px));
+    width: min(
+        920px,
+        calc(100% - 40px)
+    );
 
     margin: 0 auto;
 
@@ -19,7 +22,6 @@
     margin-bottom: 26px;
 }
 
-
 .donor-list-header .eyebrow {
     margin-bottom: 6px;
 
@@ -31,17 +33,14 @@
     letter-spacing: 2px;
 }
 
-
 .donor-list-header h1 {
     margin-bottom: 4px;
 
     font-family: var(--serif);
 
     font-size: 30px;
-
     line-height: 1.2;
 }
-
 
 .result-count {
     color: #666;
@@ -67,20 +66,40 @@
 }
 
 
-.donor-filters form {
+/* ========================================
+   MAIN FILTER LAYOUT
+======================================== */
+
+/*
+    LEFT:
+        Blood Group
+
+    RIGHT:
+        Location
+        Availability
+        Clear filters
+*/
+
+.filter-layout {
     display: grid;
 
-    grid-template-columns: 1fr 148px 115px;
+    grid-template-columns:
+        1fr
+        auto;
 
     align-items: end;
 
-    gap: 14px;
+    column-gap: 30px;
 }
 
 
 /* ========================================
-   FILTER GROUP
+   LEFT — BLOOD GROUP
 ======================================== */
+
+.blood-filter {
+    min-width: 0;
+}
 
 .filter-group label {
     display: block;
@@ -90,7 +109,6 @@
     color: #444;
 
     font-size: 9px;
-
     font-weight: 700;
 
     text-transform: uppercase;
@@ -99,10 +117,6 @@
 }
 
 
-/* ========================================
-   BLOOD GROUP
-======================================== */
-
 .blood-options {
     display: flex;
 
@@ -110,14 +124,16 @@
 
     gap: 6px;
 
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 
 .blood-option {
+    flex: 0 0 auto;
+
     min-width: 32px;
 
-    height: 26px;
+    height: 28px;
 
     padding: 0 9px;
 
@@ -132,6 +148,8 @@
     font-size: 9px;
 
     cursor: pointer;
+
+    white-space: nowrap;
 
     transition:
         background 0.2s ease,
@@ -157,11 +175,32 @@
 
 
 /* ========================================
-   INPUTS
+   RIGHT SIDE FILTERS
 ======================================== */
 
-.location-filter input,
-.availability-filter select {
+.filter-right {
+    display: grid;
+
+    grid-template-columns:
+        148px
+        115px
+        auto;
+
+    align-items: end;
+
+    column-gap: 14px;
+}
+
+
+/* ========================================
+   LOCATION
+======================================== */
+
+.location-filter {
+    min-width: 0;
+}
+
+.location-filter input {
     width: 100%;
 
     height: 36px;
@@ -182,36 +221,114 @@
 }
 
 
-.location-filter input:focus,
-.availability-filter select:focus {
-    border-color: var(--red);
-
-    box-shadow: 0 0 0 2px rgba(201, 24, 54, 0.08);
-}
-
-
 .location-filter input::placeholder {
     color: #999;
 }
 
 
+.location-filter input:focus {
+    border-color: var(--red);
+
+    box-shadow:
+        0 0 0 2px rgba(
+            201,
+            24,
+            54,
+            0.08
+        );
+}
+
+
 /* ========================================
-   FILTER ACTIONS
+   AVAILABILITY
 ======================================== */
 
-.filter-actions {
-    display: none;
+.availability-filter {
+    min-width: 0;
+}
+
+.availability-filter select {
+    width: 100%;
+
+    height: 36px;
+
+    padding: 0 10px;
+
+    background: var(--white);
+
+    border: 1px solid #dddddd;
+
+    border-radius: 6px;
+
+    color: var(--text);
+
+    font-size: 11px;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+
+.availability-filter select:focus {
+    border-color: var(--red);
+
+    box-shadow:
+        0 0 0 2px rgba(
+            201,
+            24,
+            54,
+            0.08
+        );
+}
+
+
+/* ========================================
+   CLEAR FILTERS
+======================================== */
+
+.clear-filter-group {
+    white-space: nowrap;
+}
+
+
+.clear-filter {
+    height: 36px;
+
+    padding: 0 2px;
+
+    background: transparent;
+
+    border: none;
+
+    color: #555;
+
+    font-size: 10px;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    transition:
+        color 0.2s ease;
+}
+
+
+.clear-filter:hover {
+    color: var(--red);
 }
 
 
 /* ========================================
    DONOR GRID
+   UNCHANGED DESIGN
 ======================================== */
 
 .donor-grid {
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+        repeat(3, 1fr);
 
     gap: 12px;
 }
@@ -241,7 +358,13 @@
 .donor-card:hover {
     border-color: #d0d0d0;
 
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    box-shadow:
+        0 3px 10px rgba(
+            0,
+            0,
+            0,
+            0.05
+        );
 }
 
 
@@ -326,6 +449,7 @@
     display: inline-flex;
 
     align-items: center;
+
     justify-content: center;
 
     flex-shrink: 0;
@@ -441,6 +565,7 @@
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     gap: 8px;
@@ -460,11 +585,13 @@
 
 .page-link {
     min-width: 32px;
+
     height: 32px;
 
     display: inline-flex;
 
     align-items: center;
+
     justify-content: center;
 
     padding: 0 9px;
@@ -545,20 +672,86 @@
    RESPONSIVE
 ======================================== */
 
-@media (max-width: 850px) {
+/*
+    IMPORTANT:
 
-    .donor-filters form {
-        grid-template-columns: 1fr 1fr;
-    }
+    Desktop layout:
+    Blood Group LEFT
+    Other filters RIGHT
 
+    We do NOT use the old rule:
 
     .blood-filter {
         grid-column: 1 / -1;
     }
 
+    because that was causing the
+    Blood Group to take the whole row.
+*/
 
-    .donor-grid {
-        grid-template-columns: repeat(2, 1fr);
+
+@media (max-width: 900px) {
+
+    .donor-list-page {
+        width: min(
+            920px,
+            calc(100% - 30px)
+        );
+    }
+
+
+    .filter-layout {
+        column-gap: 18px;
+    }
+
+
+    .filter-right {
+        grid-template-columns:
+            135px
+            105px
+            auto;
+
+        column-gap: 10px;
+    }
+
+
+    .blood-options {
+        gap: 4px;
+    }
+
+
+    .blood-option {
+        min-width: 30px;
+
+        padding: 0 7px;
+    }
+
+}
+
+
+@media (max-width: 760px) {
+
+    /*
+        At smaller screens only,
+        stack the right-side filters.
+    */
+
+    .filter-layout {
+        grid-template-columns: 1fr;
+
+        row-gap: 18px;
+    }
+
+
+    .filter-right {
+        display: grid;
+
+        grid-template-columns:
+            1fr
+            1fr
+            auto;
+
+        column-gap: 12px;
     }
 
 }
@@ -567,56 +760,52 @@
 @media (max-width: 600px) {
 
     .donor-list-page {
-        width: min(100% - 28px, 920px);
+        width: min(
+            calc(100% - 28px),
+            920px
+        );
 
         padding-top: 30px;
     }
 
 
-    .donor-filters form {
+    .donor-filters {
+        padding: 18px;
+    }
+
+
+    .filter-layout {
+        grid-template-columns: 1fr;
+
+        row-gap: 18px;
+    }
+
+
+    .blood-options {
+        flex-wrap: wrap;
+
+        gap: 5px;
+    }
+
+
+    .filter-right {
         grid-template-columns: 1fr;
     }
 
 
-    .blood-filter {
-        grid-column: auto;
+    .location-filter,
+    .availability-filter,
+    .clear-filter-group {
+        width: 100%;
     }
 
 
-    .filter-actions {
-        display: flex;
+    .clear-filter {
+        width: 100%;
 
-        align-items: center;
+        border: 1px solid #dddddd;
 
-        gap: 12px;
-    }
-
-
-    .search-filter-btn {
-        min-height: 34px;
-
-        padding: 0 15px;
-
-        background: var(--red);
-
-        border: 1px solid var(--red);
-
-        border-radius: 5px;
-
-        color: var(--white);
-
-        font-size: 10px;
-
-        font-weight: 700;
-
-        cursor: pointer;
-    }
-
-
-    .clear-filters {
-        color: var(--red);
-
-        font-size: 10px;
+        border-radius: 6px;
     }
 
 

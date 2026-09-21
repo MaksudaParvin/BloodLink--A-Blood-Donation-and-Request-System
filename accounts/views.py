@@ -57,7 +57,7 @@ def login_view(request):
 
             messages.success(
                 request,
-                "Welcome back!"
+                "Successfully logged in. Welcome back!"
             )
 
             return redirect("core:home")

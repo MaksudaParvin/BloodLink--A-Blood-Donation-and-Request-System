@@ -47,7 +47,7 @@ def donor_edit(request):
     )
 
 
-@login_required
+# @login_required
 def donor_detail(request, pk):
     donor_profile = get_object_or_404(
         DonorProfile.objects.select_related("user"),
@@ -98,74 +98,109 @@ def donor_delete(request, pk):
 
 
 
-
 def donor_list(request):
 
     donors = DonorProfile.objects.select_related("user").all()
 
-    # Blood group filter
-    blood_group = request.GET.get("blood_group", "")
+
+    # =====================================
+    # BLOOD GROUP FILTER
+    # =====================================
+
+    blood_group = request.GET.get(
+        "blood_group",
+        ""
+    )
 
     if blood_group:
+
         donors = donors.filter(
             user__blood_group=blood_group
         )
 
-    # Location filter
-    location = request.GET.get("location", "").strip()
+
+    # =====================================
+    # LOCATION FILTER
+    # =====================================
+
+    location = request.GET.get(
+        "location",
+        ""
+    ).strip()
 
     if location:
+
         donors = donors.filter(
             user__location__icontains=location
         )
 
-    # Availability filter
-    availability = request.GET.get("availability", "")
+
+    # =====================================
+    # AVAILABILITY FILTER
+    # =====================================
+
+    availability = request.GET.get(
+        "availability",
+        ""
+    )
 
     if availability:
+
         donors = donors.filter(
             availability=availability
         )
 
-    # Pagination
-    paginator = Paginator(donors, 6)
 
-    page_number = request.GET.get("page")
+    # =====================================
+    # PAGINATION
+    # =====================================
 
-    page_obj = paginator.get_page(page_number)
+    paginator = Paginator(
+        donors,
+        6
+    )
 
-    # Keep filters while changing pages
+    page_number = request.GET.get(
+        "page"
+    )
+
+    page_obj = paginator.get_page(
+        page_number
+    )
+
+
+    # =====================================
+    # KEEP FILTERS DURING PAGINATION
+    # =====================================
+
     query_params = request.GET.copy()
 
-    if "page" in query_params:
-        query_params.pop("page")
+    query_params.pop(
+        "page",
+        None
+    )
+
+
+    # =====================================
+    # RENDER
+    # =====================================
 
     return render(
         request,
         "donors/donor_list.html",
         {
             "page_obj": page_obj,
+
             "donors": page_obj.object_list,
+
             "blood_group": blood_group,
+
             "location": location,
+
             "availability": availability,
+
             "query_params": query_params.urlencode(),
+
             "total_donors": paginator.count,
         }
     )
-
-
-# def donor_detail(request, pk):
-
-#     donor = get_object_or_404(
-#         DonorProfile.objects.select_related("user"),
-#         pk=pk
-#     )
-
-#     return render(
-#         request,
-#         "donors/donor_detail.html",
-#         {
-#             "donor": donor
-#         }
-#     )

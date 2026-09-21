@@ -241,162 +241,266 @@
     </footer>
 
 
-<!-- =====================================
-     DELETE CONFIRMATION MODAL
-====================================== -->
-
-<div
-    id="deleteModal"
-    class="delete-modal"
->
-
-    <div class="delete-modal-overlay"></div>
-
+    <!-- =====================================
+        DELETE CONFIRMATION MODAL
+    ====================================== -->
 
     <div
-        class="delete-modal-card"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="deleteModalTitle"
+        id="deleteModal"
+        class="delete-modal"
     >
 
-        <div class="delete-modal-icon">
-            <i class="fa-solid fa-trash"></i>
-        </div>
+        <div class="delete-modal-overlay"></div>
 
 
-        <h2 id="deleteModalTitle">
-            Delete this item?
-        </h2>
+        <div
+            class="delete-modal-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="deleteModalTitle"
+        >
+
+            <div class="delete-modal-icon">
+                <i class="fa-solid fa-trash"></i>
+            </div>
 
 
-        <p>
-            Are you sure you want to delete this?
-            This action cannot be undone.
-        </p>
+            <h2 id="deleteModalTitle">
+                Delete this item?
+            </h2>
 
 
-        <div class="delete-modal-actions">
-
-            <button
-                type="button"
-                id="cancelDelete"
-                class="delete-modal-btn delete-modal-cancel"
-            >
-                Cancel
-            </button>
+            <p>
+                Are you sure you want to delete this?
+                This action cannot be undone.
+            </p>
 
 
-            <button
-                type="button"
-                id="confirmDelete"
-                class="delete-modal-btn delete-modal-confirm"
-            >
-                Delete
-            </button>
+            <div class="delete-modal-actions">
+
+                <button
+                    type="button"
+                    id="cancelDelete"
+                    class="delete-modal-btn delete-modal-cancel"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="button"
+                    id="confirmDelete"
+                    class="delete-modal-btn delete-modal-confirm"
+                >
+                    Delete
+                </button>
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
+
+    <script>
+
+        const deleteModal = document.getElementById("deleteModal");
+        const cancelDelete = document.getElementById("cancelDelete");
+        const confirmDelete = document.getElementById("confirmDelete");
+
+        let deleteForm = null;
 
 
-<script>
+        /*
+            Open delete modal
+        */
 
-    const deleteModal = document.getElementById("deleteModal");
-    const cancelDelete = document.getElementById("cancelDelete");
-    const confirmDelete = document.getElementById("confirmDelete");
+        document.querySelectorAll(".delete-trigger").forEach(function(button) {
 
-    let deleteForm = null;
+            button.addEventListener("click", function() {
+
+                const formId = this.dataset.deleteForm;
+
+                deleteForm = document.getElementById(formId);
+
+                if (deleteForm) {
+
+                    deleteModal.classList.add("show");
+
+                    document.body.classList.add("modal-open");
+
+                }
+
+            });
+
+        });
 
 
-    /*
-        Open delete modal
-    */
+        /*
+            Cancel delete
+        */
 
-    document.querySelectorAll(".delete-trigger").forEach(function(button) {
+        cancelDelete.addEventListener("click", function() {
 
-        button.addEventListener("click", function() {
+            deleteModal.classList.remove("show");
 
-            const formId = this.dataset.deleteForm;
+            document.body.classList.remove("modal-open");
 
-            deleteForm = document.getElementById(formId);
+            deleteForm = null;
+
+        });
+
+
+        /*
+            Confirm delete
+        */
+
+        confirmDelete.addEventListener("click", function() {
 
             if (deleteForm) {
 
-                deleteModal.classList.add("show");
-
-                document.body.classList.add("modal-open");
+                deleteForm.submit();
 
             }
 
         });
 
-    });
+
+        /*
+            Click outside modal
+        */
+
+        document
+            .querySelector(".delete-modal-overlay")
+            .addEventListener("click", function() {
+
+                cancelDelete.click();
+
+            });
 
 
-    /*
-        Cancel delete
-    */
+        /*
+            ESC key
+        */
 
-    cancelDelete.addEventListener("click", function() {
+        document.addEventListener("keydown", function(event) {
 
-        deleteModal.classList.remove("show");
+            if (
+                event.key === "Escape" &&
+                deleteModal.classList.contains("show")
+            ) {
 
-        document.body.classList.remove("modal-open");
+                cancelDelete.click();
 
-        deleteForm = null;
+            }
 
-    });
+        });
 
-
-    /*
-        Confirm delete
-    */
-
-    confirmDelete.addEventListener("click", function() {
-
-        if (deleteForm) {
-
-            deleteForm.submit();
-
-        }
-
-    });
+    </script>
 
 
-    /*
-        Click outside modal
-    */
+    <!-- =====================================
+        TOAST NOTIFICATIONS
+    ====================================== -->
 
-    document
-        .querySelector(".delete-modal-overlay")
-        .addEventListener("click", function() {
+    {% if messages %}
 
-            cancelDelete.click();
+        <div class="toast-container">
+
+            {% for message in messages %}
+
+                <div
+                    class="toast toast-{{ message.tags }}"
+                    role="alert"
+                >
+
+                    <div class="toast-icon">
+
+                        {% if message.tags == "success" %}
+                            <i class="fa-solid fa-check"></i>
+
+                        {% elif message.tags == "error" %}
+                            <i class="fa-solid fa-xmark"></i>
+
+                        {% elif message.tags == "warning" %}
+                            <i class="fa-solid fa-exclamation"></i>
+
+                        {% else %}
+                            <i class="fa-solid fa-info"></i>
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="toast-content">
+                        {{ message }}
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="toast-close"
+                        aria-label="Close"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <script>
+
+        /*
+            Close toast manually
+        */
+
+        document.querySelectorAll(".toast-close").forEach(function(button) {
+
+            button.addEventListener("click", function() {
+
+                const toast = this.closest(".toast");
+
+                toast.classList.add("hide");
+
+                setTimeout(function() {
+
+                    toast.remove();
+
+                }, 250);
+
+            });
 
         });
 
 
-    /*
-        ESC key
-    */
+        /*
+            Automatically hide toast
+            after 4 seconds
+        */
 
-    document.addEventListener("keydown", function(event) {
+        document.querySelectorAll(".toast").forEach(function(toast) {
 
-        if (
-            event.key === "Escape" &&
-            deleteModal.classList.contains("show")
-        ) {
+            setTimeout(function() {
 
-            cancelDelete.click();
+                toast.classList.add("hide");
 
-        }
+                setTimeout(function() {
 
-    });
+                    toast.remove();
 
-</script>
+                }, 250);
+
+            }, 4000);
+
+        });
+
+    </script>
 
 </body>
 

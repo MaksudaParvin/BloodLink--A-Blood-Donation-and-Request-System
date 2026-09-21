@@ -154,6 +154,11 @@ def edit_request(request, pk):
 
             form.save()
 
+            messages.success(
+                request,
+                "Blood request updated successfully."
+            )
+
             return redirect(
                 "requests_app:detail",
                 pk=blood_request.pk
@@ -188,6 +193,11 @@ def delete_request(request, pk):
 
         blood_request.delete()
 
+        messages.success(
+            request,
+            "Blood request deleted successfully."
+        )
+
         return redirect(
             "requests_app:my_requests"
         )
@@ -215,6 +225,11 @@ def update_status(request, pk):
 
             blood_request.status = status
             blood_request.save()
+
+            messages.success(
+                request,
+                "Status updated successfully."
+            )
 
     return redirect(
         "requests_app:detail",
